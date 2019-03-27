@@ -20,6 +20,10 @@ from postman_manage import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.login),
-
+    path('home/', views.home),
+    path('logout/', views.logout),
+    path('xkey_manage/', views.xkey_manage),
+    path('save_xkey/', views.save_xkey),
+    path('update_xkey/', views.update_xkey),
 
 ]

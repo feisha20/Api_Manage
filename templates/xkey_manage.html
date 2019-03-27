@@ -1,0 +1,188 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>API管理平台 -Xkey管理</title>
+
+    <link rel="shortcut icon">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <form method="get" action="/apisearch/">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="search" name="apiname" placeholder="请输入名称"
+                                           class="input-sm form-control">
+                                    <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+                                        </span>
+
+                                </div>
+                            </form>
+                            <div class="text-left">
+                                <a data-toggle="modal" class="btn btn-primary"
+                                   href="xkey_manage.html#modal-form">新增</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Xkey</th>
+                                <th>所有者</th>
+                                <th>备注</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for xkey in xkeys %}
+                                <tr>
+                                    <td>{{ xkey.id }}</td>
+                                    <td>{{ xkey.xkey }}</td>
+                                    <td>{{ xkey.xkey_owner}}</td>
+                                    <td>{{ xkey.remark }}</td>
+                                    <td>{{ xkey.create_time}}</td>
+                                    <td><a data-toggle="modal" href="xkey_manage.html#modal-form2">编辑</a>&nbsp;&nbsp;<a
+                                            href="" style="color: grey">删除</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="modal-form" class="modal fade" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-11">
+                                            <form role="form" action="/save_xkey/" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label>Xkey：</label>
+                                                    <input type="text" name="xkey" class="form-control" required="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>所有者：</label>
+                                                    <input type="text" name="xkey_owner" class="form-control" required="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>备注：</label>
+                                                    <input type="text" name="remark" class="form-control">
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-sm btn-primary m-t-n-xs"
+                                                            type="submit"><strong>保存</strong>
+                                                    </button>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modal-form2" class="modal fade" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-11">
+                                            <form role="form" action="/update_xkey/" method="POST">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label>Xkey3：</label>
+                                                    <input type="text" name="xkey" class="form-control" required="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>所有者：</label>
+                                                    <input type="text" name="xkey_owner" class="form-control" required="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>备注：</label>
+                                                    <input type="text" name="remark" class="form-control">
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-sm btn-primary m-t-n-xs"
+                                                            type="submit"><strong>保存</strong>
+                                                    </button>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+<!-- Peity -->
+<script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
+
+<!-- 自定义js -->
+<script src="{% static 'js/content.js' %}"></script>
+
+<!-- CodeMirror -->
+<script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
+<script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
+
+<!-- iCheck -->
+<script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
+
+<!-- Peity -->
+<script src="{% static 'js/demo/peity-demo.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            styleActiveLine: true
+        });
+    });
+</script>
+
+
+</body>
+
+</html>
