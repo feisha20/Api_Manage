@@ -95,9 +95,6 @@ def get_all_collection():
     url = "https://api.getpostman.com/collections/8a21f784-14e2-463b-818f-1aa4ecfa8e79"
     headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
     res = requests.get(url, headers=headers)
-    print(res.json())
     model = res.json()
     with open("./collections/123.json", 'w', encoding='utf-8') as json_file:
         json.dump(model, json_file, ensure_ascii=False)
-
-get_all_collection()
