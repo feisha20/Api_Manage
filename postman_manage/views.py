@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from postman_manage.models import Xkey
 from postman_manage import models
+from postman_manage.models import Collections
+import requests
+import json
 
 
 # Create your views here.
@@ -77,3 +80,24 @@ def update_xkey(request):
         )
         xkey_list = Xkey.objects.all()  # 读取xkey
         return render(request, "xkey_manage.html", {"xkeys": xkey_list})
+
+
+# collections管理
+@login_required
+def collections_manage(request):
+    username = request.session.get('user', '')  # 读取浏览器登录session
+    collection_list = Collections.objects.all()  # 读取collection
+    return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
+
+
+# 获取collections
+def get_all_collection():
+    url = "https://api.getpostman.com/collections/8a21f784-14e2-463b-818f-1aa4ecfa8e79"
+    headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
+    res = requests.get(url, headers=headers)
+    print(res.json())
+    model = res.json()
+    with open("./collections/123.json", 'w', encoding='utf-8') as json_file:
+        json.dump(model, json_file, ensure_ascii=False)
+
+get_all_collection()

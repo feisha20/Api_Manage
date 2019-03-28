@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from postman_manage import views
+from postman_manage import views_coll
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,7 @@ urlpatterns = [
     path('xkey_manage/', views.xkey_manage),
     path('save_xkey/', views.save_xkey),
     path('update_xkey/', views.update_xkey),
+    path('collections_manage/', views.collections_manage),
+    path('get_collection/', views_coll.get_collection),
 
 ]
