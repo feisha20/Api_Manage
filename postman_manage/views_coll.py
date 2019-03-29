@@ -15,14 +15,6 @@ con = pymysql.connect(
 )
 
 
-# 获取collections
-def get_all_collection():
-    url = "https://api.getpostman.com/collections"
-    headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
-    res = requests.get(url, headers=headers).json()
-    return res
-
-
 def read_db(sql):
     cursor = con.cursor(cursor=pymysql.cursors.DictCursor)
     cursor.execute(sql)
@@ -39,11 +31,11 @@ def write_db(sql):
     con.close()
 
 
-# sql = "INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values('33','44','55','66')"
-collections = get_all_collection()['collections']
-
-
 def get_collection(request):
+    url = "https://api.getpostman.com/collections"
+    headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
+    # headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
+    collections = requests.get(url, headers=headers).json()['collections']
     delete_collections = 'delete from postman_manage_collections'
     write_db(delete_collections)
     for i in range(len(collections)):
@@ -51,8 +43,6 @@ def get_collection(request):
         collection_name = collections[i]['name']
         collection_owner = collections[i]['owner']
         collection_uid = collections[i]['uid']
-        # create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        # print(create_time)
         values = (collection_id, collection_name, collection_owner, collection_uid)
         inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values' + str(
             values)
@@ -61,3 +51,8 @@ def get_collection(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
     collection_list = Collections.objects.all()  # 读取collection
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
+
+# sql = "select xkey from postman_manage_xkey"
+# xkeys = read_db(sql)
+#
+# print(xkeys)
