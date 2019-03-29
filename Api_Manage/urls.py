@@ -27,6 +27,7 @@ urlpatterns = [
     path('save_xkey/', views.save_xkey),
     path('update_xkey/', views.update_xkey),
     path('collections_manage/', views.collections_manage),
-    path('get_collection/', views_coll.get_collection),
+    path('get_collections/', views_coll.get_collections),
+    path('get_single_collection/', views_coll.get_single_collection),
 
 ]
