@@ -30,6 +30,6 @@ urlpatterns = [
     path('del_xkey.html', views_xkey.del_xkey),
     path('collections_manage/', views_coll.collections_manage),
     path('get_collections/', views_coll.get_collections),
-    path('get_single_collection/', views_coll.get_single_collection),
+    path('get_single_collection.html', views_coll.get_single_collection),
 
 ]

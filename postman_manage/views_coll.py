@@ -50,13 +50,15 @@ def get_collections(request):
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
-def get_single_collection(request, cid):
+def get_single_collection(request):
     # url = "https://api.getpostman.com/collections/8a21f784-14e2-463b-818f-1aa4ecfa8e79"
+    cid = request.GET.get('cid')
+    xkey = request.GET.get('xkey')
     url = "https://api.getpostman.com/collections/" + cid
-    headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
+    headers = {"X-Api-Key": xkey}
     collection = requests.get(url, headers=headers).json()
     collection_name = collection["collection"]['info']['name']
-    collection_file = create_collection_json_file(collection_name)
+    collection_file = create_collection_json_file(collection_name,cid)
     with open(collection_file, 'w', encoding='utf-8') as json_file:
         json.dump(collection, json_file, ensure_ascii=False)
     username = request.session.get('user', '')  # 读取浏览器登录session
@@ -64,15 +66,16 @@ def get_single_collection(request, cid):
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
-def create_collection_json_file(filename):
+def create_collection_json_file(filename,cid):
     path = "F:\\Api_manage\\collections\\"
     suffix = ".json"
     file = filename + suffix
     newfile = path + file
+    cid = str(cid)
     print(newfile)
     f = open(newfile, 'w')
     f.close()
-    sql = "update postman_manage_collections set collection_path =" + "\"" + str(file) + "\""
+    sql = "update postman_manage_collections set collection_path =" + "\"" + str(file) + "\" where collection_id =" + "\"" + cid + "\""
     print(sql)
     write_db(sql)
     return newfile

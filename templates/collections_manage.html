@@ -68,7 +68,7 @@
                                     <td>{{ collection.collection_uid }}</td>
                                     <td>{{ collection.collection_path }}</td>
                                     <td>{{ collection.create_time}}</td>
-                                    <td><a data-toggle="modal" href="/get_single_collection">同步用例</a>
+                                    <td><a  href="/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步用例</a>
                                 </tr>
                             {% endfor %}
                             </tbody>
