@@ -32,16 +32,18 @@ def get_collections(request):
         url = "https://api.getpostman.com/collections"
         headers = {"X-Api-Key": xkey}
         # headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
-        collections = requests.get(url, headers=headers).json()['collections']
-        for i in range(len(collections)):
-            collection_id = collections[i]['id']
-            collection_name = collections[i]['name']
-            collection_owner = collections[i]['owner']
-            collection_uid = xkey
-            values = (collection_id, collection_name, collection_owner, collection_uid)
-            inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values' + str(
-                values)
-            write_db(inster_collections)
+        res = requests.get(url, headers=headers)
+        if res.status_code == 200:
+            collections = res.json()['collections']
+            for i in range(len(collections)):
+                collection_id = collections[i]['id']
+                collection_name = collections[i]['name']
+                collection_owner = collections[i]['owner']
+                collection_uid = xkey
+                values = (collection_id, collection_name, collection_owner, collection_uid)
+                inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values' + str(
+                    values)
+                write_db(inster_collections)
 
     username = request.session.get('user', '')  # 读取浏览器登录session
     collection_list = Collections.objects.all()  # 读取collection
