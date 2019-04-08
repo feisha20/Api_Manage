@@ -61,8 +61,9 @@ def get_collections(request):
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
-def get_single_collection(request):
-    url = "https://api.getpostman.com/collections/8a21f784-14e2-463b-818f-1aa4ecfa8e79"
+def get_single_collection(request,cid):
+    # url = "https://api.getpostman.com/collections/8a21f784-14e2-463b-818f-1aa4ecfa8e79"
+    url = "https://api.getpostman.com/collections/" + cid
     headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
     collection = requests.get(url, headers=headers).json()
     collection_name = collection["collection"]['info']['name']
