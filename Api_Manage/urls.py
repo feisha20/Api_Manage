@@ -17,16 +17,18 @@ from django.contrib import admin
 from django.urls import path
 from postman_manage import views
 from postman_manage import views_coll
+from postman_manage import views_xkey
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.login),
     path('home/', views.home),
     path('logout/', views.logout),
-    path('xkey_manage/', views.xkey_manage),
-    path('save_xkey/', views.save_xkey),
-    path('update_xkey/', views.update_xkey),
-    path('collections_manage/', views.collections_manage),
+    path('get_xkey/', views_xkey.get_xkey),
+    path('add_xkey.html', views_xkey.add_xkey),
+    path('edit_xkey.html', views_xkey.eidt_xkey),
+    path('del_xkey.html', views_xkey.del_xkey),
+    path('collections_manage/', views_coll.collections_manage),
     path('get_collections/', views_coll.get_collections),
     path('get_single_collection/', views_coll.get_single_collection),
 

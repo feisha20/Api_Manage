@@ -1,39 +1,26 @@
 import django
 import os
 import json
+from django.contrib.auth.decorators import login_required
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
 django.setup()
 import requests
-import pymysql
 from django.shortcuts import render
 from postman_manage.models import Collections
-
-con = pymysql.connect(
-    host="127.0.0.1",
-    port=3306,
-    user='root',
-    password='test123456',
-    db="apimanage",
-    charset="utf8",
-)
+from postman_manage.views import write_db
+from postman_manage.views import read_db
 
 
-def read_db(sql):
-    cursor = con.cursor(cursor=pymysql.cursors.DictCursor)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
+# collections管理
+@login_required
+def collections_manage(request):
+    username = request.session.get('user', '')  # 读取浏览器登录session
+    collection_list = Collections.objects.all()  # 读取collection
+    return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
-def write_db(sql):
-    con.ping(reconnect=True)
-    cursor = con.cursor(cursor=pymysql.cursors.DictCursor)
-    cursor.execute(sql)
-    con.commit()
-    cursor.close()
-    con.close()
-
-
+# 根据xkey获取所有的collections
 def get_collections(request):
     select_xkey = 'select xkey from postman_manage_xkey'
     xkeys = read_db(select_xkey)
@@ -61,13 +48,13 @@ def get_collections(request):
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
-def get_single_collection(request,cid):
+def get_single_collection(request, cid):
     # url = "https://api.getpostman.com/collections/8a21f784-14e2-463b-818f-1aa4ecfa8e79"
     url = "https://api.getpostman.com/collections/" + cid
     headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
     collection = requests.get(url, headers=headers).json()
     collection_name = collection["collection"]['info']['name']
-    collection_file= create_collection_json_file(collection_name)
+    collection_file = create_collection_json_file(collection_name)
     with open(collection_file, 'w', encoding='utf-8') as json_file:
         json.dump(collection, json_file, ensure_ascii=False)
     username = request.session.get('user', '')  # 读取浏览器登录session

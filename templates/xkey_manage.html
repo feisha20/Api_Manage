@@ -42,7 +42,7 @@
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
-                                   href="xkey_manage.html#modal-form">新增</a>
+                                   href="/add_xkey.html">新增</a>
                             </div>
                         </div>
                     </div>
@@ -67,8 +67,8 @@
                                     <td>{{ xkey.xkey_owner}}</td>
                                     <td>{{ xkey.remark }}</td>
                                     <td>{{ xkey.create_time}}</td>
-                                    <td><a data-toggle="modal" href="xkey_manage.html#modal-form2">编辑</a>&nbsp;&nbsp;<a
-                                            href="" style="color: grey">删除</a></td>
+                                    <td><a href="/edit_xkey.html?nid={{ xkey.id }}">编辑</a>&nbsp;&nbsp;<a
+                                            href="/del_xkey.html?nid={{ xkey.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -180,6 +180,13 @@
             styleActiveLine: true
         });
     });
+</script>
+
+
+<script language="JavaScript">
+function confirmDel(){
+return confirm("是否确定删除？");
+}
 </script>
 
 
