@@ -34,6 +34,7 @@
             <input type="text" name="collection_path" value="{{ obj.collection_path }}" class="form-control" disabled>
         <div class="form-group">
             <label>status：</label>
+            <br>
             <select name="status">
                   <option value="True" {% if obj.status == 1 %} selected="selected" {% endif %}>True</option>
                   <option value="False" {% if obj.status == 0 %} selected="selected" {% endif %}>False</option>

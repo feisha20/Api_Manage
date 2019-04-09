@@ -111,3 +111,11 @@ def eidt_collection(request):
         )
         collection_list = Collections.objects.all()  # 读取collection
         return render(request, "collections_manage.html", {"collections": collection_list})
+
+# 删除collection
+@login_required
+def del_collection(request):
+    nid = request.GET.get('nid')
+    models.Collections.objects.filter(id=nid).delete()
+    collection_list = Collections.objects.all()  # 读取xkey
+    return render(request, "collections_manage.html", {"collections": collection_list})
