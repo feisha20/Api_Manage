@@ -60,3 +60,12 @@ def del_xkey(request):
     models.Xkey.objects.filter(id=nid).delete()
     xkey_list = Xkey.objects.all()  # 读取xkey
     return render(request, "xkey_manage.html", {"xkeys": xkey_list})
+
+
+# xkey列表搜索
+@login_required
+def xkey_search(request):
+    username = request.session.get("user", '')
+    search_owner = request.GET.get("xkey_owner", "")
+    xkey_list = Xkey.objects.filter(xkey_owner__contains=search_owner)
+    return render(request, 'xkey_manage.html', {"user": username, "xkeys": xkey_list})

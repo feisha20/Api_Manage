@@ -31,5 +31,6 @@ urlpatterns = [
     path('collections_manage/', views_coll.collections_manage),
     path('get_collections/', views_coll.get_collections),
     path('get_single_collection.html', views_coll.get_single_collection),
-
+    path('apisearch/', views_xkey.xkey_search),
+    path('collection_search/', views_coll.collection_search),
 ]

@@ -2,6 +2,7 @@ import django
 import os
 import json
 from django.contrib.auth.decorators import login_required
+from postman_manage.models import Collections
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
 django.setup()
@@ -50,6 +51,7 @@ def get_collections(request):
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
+# 获取单个collection
 def get_single_collection(request):
     # url = "https://api.getpostman.com/collections/8a21f784-14e2-463b-818f-1aa4ecfa8e79"
     cid = request.GET.get('cid')
@@ -58,7 +60,7 @@ def get_single_collection(request):
     headers = {"X-Api-Key": xkey}
     collection = requests.get(url, headers=headers).json()
     collection_name = collection["collection"]['info']['name']
-    collection_file = create_collection_json_file(collection_name,cid)
+    collection_file = create_collection_json_file(collection_name, cid)
     with open(collection_file, 'w', encoding='utf-8') as json_file:
         json.dump(collection, json_file, ensure_ascii=False)
     username = request.session.get('user', '')  # 读取浏览器登录session
@@ -66,7 +68,8 @@ def get_single_collection(request):
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
-def create_collection_json_file(filename,cid):
+# 创建json文件
+def create_collection_json_file(filename, cid):
     path = "F:\\Api_manage\\collections\\"
     suffix = ".json"
     file = filename + suffix
@@ -75,7 +78,16 @@ def create_collection_json_file(filename,cid):
     print(newfile)
     f = open(newfile, 'w')
     f.close()
-    sql = "update postman_manage_collections set collection_path =" + "\"" + str(file) + "\" where collection_id =" + "\"" + cid + "\""
+    sql = "update postman_manage_collections set collection_path =" + "\"" + str(
+        file) + "\" where collection_id =" + "\"" + cid + "\""
     print(sql)
     write_db(sql)
     return newfile
+
+# collection列表搜索
+@login_required
+def collection_search(request):
+    username = request.session.get("user", '')
+    search_collection = request.GET.get("collection_name", "")
+    collections_list = Collections.objects.filter(collection_name__contains=search_collection)
+    return render(request, 'collections_manage.html', {"user": username, "collections": collections_list})
