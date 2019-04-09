@@ -1,11 +1,10 @@
 import django
 import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
+django.setup()
 import json
 from django.contrib.auth.decorators import login_required
 from postman_manage.models import Collections
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
-django.setup()
 import requests
 from django.shortcuts import render
 from postman_manage.models import Collections
@@ -25,9 +24,9 @@ def collections_manage(request):
 def get_collections(request):
     select_xkey = 'select xkey from postman_manage_xkey'
     xkeys = read_db(select_xkey)
-    print(xkeys)
-    delete_collections = 'delete from postman_manage_collections'
-    write_db(delete_collections)
+    # print(xkeys)
+    # delete_collections = 'delete from postman_manage_collections'
+    # write_db(delete_collections)
     for a in range(len(xkeys)):
         xkey = xkeys[a]['xkey']
         url = "https://api.getpostman.com/collections"
@@ -43,7 +42,7 @@ def get_collections(request):
                 collection_uid = xkey
                 values = (collection_id, collection_name, collection_owner, collection_uid)
                 inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values' + str(
-                    values)
+                    values ) + "ON DUPLICATE KEY UPDATE  collection_id=collection_id"
                 write_db(inster_collections)
 
     username = request.session.get('user', '')  # 读取浏览器登录session
@@ -91,3 +90,7 @@ def collection_search(request):
     search_collection = request.GET.get("collection_name", "")
     collections_list = Collections.objects.filter(collection_name__contains=search_collection)
     return render(request, 'collections_manage.html', {"user": username, "collections": collections_list})
+
+#
+# aa = read_db("select collection_id from postman_manage_collections")
+# print(aa)

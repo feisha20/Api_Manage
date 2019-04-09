@@ -17,9 +17,12 @@ con = pymysql.connect(
 
 # 读数据库
 def read_db(sql):
+    con.ping(reconnect=True)
     cursor = con.cursor(cursor=pymysql.cursors.DictCursor)
     cursor.execute(sql)
     result = cursor.fetchall()
+    cursor.close()
+    con.close()
     return result
 
 
