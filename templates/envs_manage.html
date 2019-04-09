@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>API管理平台 -Collections管理</title>
+    <title>API管理平台 -envs管理</title>
 
     <link rel="shortcut icon">
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -29,10 +29,10 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/collection_search/">
+                            <form method="get" action="/env_search/">
                                 {% csrf_token %}
                                 <div class="input-group">
-                                    <input type="search" name="collection_name" placeholder="请输入collection名称"
+                                    <input type="search" name="env_name" placeholder="请输入env名称"
                                            class="input-sm form-control">
                                     <span class="input-group-btn">
                                             <button type="submit" class="btn btn-sm btn-primary">搜索</button>
@@ -42,7 +42,7 @@
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
-                                   href="/get_collections/">同步collections</a>
+                                   href="/get_envs/">同步envs</a>
                             </div>
                         </div>
                     </div>
@@ -50,23 +50,23 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>CollectionId</th>
-                                <th>CollectionName</th>
-                                <th>CollectionOwner</th>
-                                <th>CollectionPath</th>
+                                <th>envId</th>
+                                <th>envName</th>
+                                <th>envOwner</th>
+                                <th>envPath</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for collection in collections %}
+                            {% for env in envs %}
                                 <tr>
-                                    <td>{{ collection.collection_id }}</td>
-                                    <td>{{ collection.collection_name }}</td>
-                                    <td>{{ collection.collection_owner}}</td>
-                                    <td>{{ collection.collection_path }}</td>
-                                    <td>{{ collection.create_time}}</td>
-                                    <td><a  href="/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
+                                    <td>{{ env.env_id }}</td>
+                                    <td>{{ env.env_name }}</td>
+                                    <td>{{ env.env_owner}}</td>
+                                    <td>{{ env.env_path }}</td>
+                                    <td>{{ env.create_time}}</td>
+                                    <td><a  href="/get_single_env.html?cid={{ env.env_id }}&xkey={{env.env_uid }}">同步</a>
                                         &nbsp;&nbsp;<a>运行</a>
                                         &nbsp;&nbsp;<a>编辑</a>
                                         &nbsp;&nbsp;<a>删除</a>

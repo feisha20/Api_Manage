@@ -71,7 +71,7 @@ def get_single_collection(request):
 def create_collection_json_file(filename, cid):
     path = "F:\\Api_manage\\collections\\"
     suffix = ".json"
-    file = filename + suffix
+    file = "col-" + filename + suffix
     newfile = path + file
     cid = str(cid)
     print(newfile)

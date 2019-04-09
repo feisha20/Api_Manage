@@ -18,6 +18,7 @@ from django.urls import path
 from postman_manage import views
 from postman_manage import views_coll
 from postman_manage import views_xkey
+from postman_manage import views_env
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +34,9 @@ urlpatterns = [
     path('get_single_collection.html', views_coll.get_single_collection),
     path('apisearch/', views_xkey.xkey_search),
     path('collection_search/', views_coll.collection_search),
+    path('envs_manage/', views_env.envs_manage),
+    path('get_envs/', views_env.get_envs),
+    path('get_singel_env.html/', views_env.get_single_env),
+    path('env_search/', views_env.env_search),
+    path('get_single_env.html', views_env.get_single_env),
 ]
