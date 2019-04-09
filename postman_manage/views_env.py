@@ -30,6 +30,7 @@ def get_envs(request):
         xkey = xkeys[a]['xkey']
         url = "https://api.getpostman.com/environments"
         headers = {"X-Api-Key": xkey}
+        xkey_owner = read_db("select xkey_owner from postman_manage_xkey where xkey =xkey")[0]["xkey_owner"]
         # headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
         res = requests.get(url, headers=headers)
         if res.status_code == 200:
@@ -37,7 +38,7 @@ def get_envs(request):
             for i in range(len(envs)):
                 env_id = envs[i]['id']
                 env_name = envs[i]['name']
-                env_owner = envs[i]['owner']
+                env_owner = xkey_owner
                 env_uid = xkey
                 values = (env_id, env_name, env_owner, env_uid)
                 inster_envs = 'INSERT INTO postman_manage_envs(env_id,env_name,env_owner,env_uid) values' + str(

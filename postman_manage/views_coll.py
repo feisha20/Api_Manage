@@ -32,13 +32,14 @@ def get_collections(request):
         url = "https://api.getpostman.com/collections"
         headers = {"X-Api-Key": xkey}
         # headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
+        xkey_owner = read_db("select xkey_owner from postman_manage_xkey where xkey =xkey")[0]["xkey_owner"]
         res = requests.get(url, headers=headers)
         if res.status_code == 200:
             collections = res.json()['collections']
             for i in range(len(collections)):
                 collection_id = collections[i]['id']
                 collection_name = collections[i]['name']
-                collection_owner = collections[i]['owner']
+                collection_owner = xkey_owner
                 collection_uid = xkey
                 values = (collection_id, collection_name, collection_owner, collection_uid)
                 inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values' + str(
@@ -92,5 +93,5 @@ def collection_search(request):
     return render(request, 'collections_manage.html', {"user": username, "collections": collections_list})
 
 #
-# aa = read_db("select collection_id from postman_manage_collections")
-# print(aa)
+# xkey_owner = read_db("select xkey_owner from postman_manage_xkey where xkey =xkey")[0]["xkey_owner"]
+# print(xkey_owner)
