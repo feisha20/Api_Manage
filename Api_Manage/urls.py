@@ -39,4 +39,5 @@ urlpatterns = [
     path('get_singel_env.html/', views_env.get_single_env),
     path('env_search/', views_env.env_search),
     path('get_single_env.html', views_env.get_single_env),
+    path('edit_collection.html', views_coll.eidt_collection),
 ]

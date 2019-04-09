@@ -22,6 +22,8 @@ class Collections(models.Model):
     collection_owner = models.CharField('collection_owner', max_length=200)  # collection_owner
     collection_uid = models.CharField('collection_uid', max_length=200)  # collection_uid
     collection_path = models.CharField('collection_path', max_length=200)  # collection_path
+    status = models.BooleanField('是否有效', default=1) # status
+    remark = models.CharField('remark', max_length=200, default="")  # remark
     create_time = models.DateTimeField('创建时间', auto_now=True)  # 创建时间，自动获取当前时间
 
     class Meta:

@@ -50,10 +50,13 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>CollectionId</th>
+                                <th class="hidden">id</th>
+                                <th class="hidden">CollectionId</th>
                                 <th>CollectionName</th>
                                 <th>CollectionOwner</th>
                                 <th>CollectionPath</th>
+                                <th>Status</th>
+                                <th>Remark</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
@@ -61,14 +64,21 @@
                             <tbody>
                             {% for collection in collections %}
                                 <tr>
-                                    <td>{{ collection.collection_id }}</td>
+                                    <td class="hidden">{{ collection.id }}</td>
+                                    <td class="hidden">{{ collection.collection_id }}</td>
                                     <td>{{ collection.collection_name }}</td>
                                     <td>{{ collection.collection_owner}}</td>
                                     <td>{{ collection.collection_path }}</td>
+                                    <td>{% if collection.status == 1 %}
+                                            <a style="color: green">{{ collection.status }}</a>
+                                            {% else %}
+                                            <a style="color: red">{{ collection.status }}</a>
+                                            {% endif %}</td>
+                                    <td>{{ collection.remark }}</td>
                                     <td>{{ collection.create_time}}</td>
                                     <td><a  href="/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
                                         &nbsp;&nbsp;<a>运行</a>
-                                        &nbsp;&nbsp;<a>编辑</a>
+                                        &nbsp;&nbsp;<a href="/edit_collection.html?nid={{ collection.id }}">编辑</a>
                                         &nbsp;&nbsp;<a>删除</a>
                                 </tr>
                             {% endfor %}

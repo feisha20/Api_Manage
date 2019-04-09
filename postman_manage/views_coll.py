@@ -6,6 +6,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from postman_manage.models import Collections
 import requests
+from postman_manage import models
 from django.shortcuts import render
 from postman_manage.models import Collections
 from postman_manage.views import write_db
@@ -92,6 +93,21 @@ def collection_search(request):
     collections_list = Collections.objects.filter(collection_name__contains=search_collection)
     return render(request, 'collections_manage.html', {"user": username, "collections": collections_list})
 
-#
-# xkey_owner = read_db("select xkey_owner from postman_manage_xkey where xkey =xkey")[0]["xkey_owner"]
-# print(xkey_owner)
+
+# 修改collection
+@login_required
+def eidt_collection(request):
+    if request.method == 'GET':
+        nid = request.GET.get('nid')
+        obj = models.Collections.objects.filter(id=nid).first()
+        return render(request, 'edit_collection.html', {'obj': obj})
+    elif request.method == 'POST':
+        nid = request.GET.get('nid')
+        remark = request.POST.get('remark')
+        status = request.POST.get('status')
+        models.Collections.objects.filter(id=nid).update(
+            remark=remark,
+            status=status
+        )
+        collection_list = Collections.objects.all()  # 读取collection
+        return render(request, "collections_manage.html", {"collections": collection_list})
