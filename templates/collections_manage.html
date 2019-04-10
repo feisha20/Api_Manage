@@ -58,8 +58,8 @@
                                 <th>CollectionPath</th>
                                 <th class="hidden">Status</th>
                                 <th>运行结果</th>
-                                <th>Remark</th>
-                                <th>创建时间</th>
+                                <th>备注</th>
+                                <th>更新时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -80,9 +80,9 @@
                                         {% endif %}
                                     </td>
                                     <td>{% if collection.run_status == 1 %}
-                                            <a style="color: green">Pass</a>
+                                            <a style="color: green" href="/report/{{ collection.collection_name }}.html">Pass</a>
                                             {% elif collection.run_status == 0 %}
-                                                <a style="color: red">Fail</a>
+                                                <a style="color: red" href="/report/{{ collection.collection_name }}.html">Fail</a>
                                             {% else %}
                                                 <a style="color: grey">None</a>
                                         {% endif %}
@@ -90,7 +90,7 @@
                                     <td>{{ collection.remark }}</td>
                                     <td>{{ collection.create_time}}</td>
                                     <td><a  href="/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
-                                        &nbsp;&nbsp;<a href="/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}">运行</a>
+                                        <a href="/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}" disabled>运行</a>
                                         &nbsp;&nbsp;<a href="/edit_collection.html?nid={{ collection.id }}">编辑</a>
                                         &nbsp;&nbsp;<a href="/del_collection.html?nid={{ collection.id }}" style="color: grey" onclick="return confirmDel()">删除</a>
                                 </tr>

@@ -2,6 +2,7 @@
 import django
 import os
 import subprocess
+import time
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
 django.setup()
@@ -140,19 +141,17 @@ def run_collection(request):
         obj = models.Collections.objects.filter(id=nid).first()
         col_file = obj.collection_path
         col_file_name = obj.collection_name
+        report_file = col_file_name + ".html"
         print(col_file)
         # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
-        run_sh = "cd ../collections & newman run " + col_file + " -r html --reporter-html-export ./report/" + col_file_name + ".html"
+        report_template = "--ignore-redirects --reporters cli,html --reporter-html-template templates/template-default-colored.hbs"
+        run_sh = "cd ../collections & newman run " + col_file + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
         print(run_sh)
         f = subprocess.call(run_sh, shell=True)
         collection_list = Collections.objects.all()
         if f == 0:
             models.Collections.objects.filter(id=nid).update(run_status=1)
-            return render(request, 'collections_manage.html',{"collections": collection_list})
+            return render(request, 'collections_manage.html', {"collections": collection_list})
         else:
             models.Collections.objects.filter(id=nid).update(run_status=0)
-            return render(request, 'collections_manage.html',{"collections": collection_list})
-
-
-
-
+            return render(request, 'collections_manage.html', {"collections": collection_list})

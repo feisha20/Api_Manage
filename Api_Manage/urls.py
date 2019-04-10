@@ -19,6 +19,9 @@ from postman_manage import views
 from postman_manage import views_coll
 from postman_manage import views_xkey
 from postman_manage import views_env
+from django.views.static import serve
+from django.conf import settings
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,4 +45,5 @@ urlpatterns = [
     path('edit_collection.html', views_coll.eidt_collection),
     path('del_collection.html', views_coll.del_collection),
     path('run_collection.html', views_coll.run_collection),
+    url('^report/(?P<path>.*)$',serve, {'document_root':settings.REPORT_ROOT}),
 ]
