@@ -22,7 +22,8 @@ class Collections(models.Model):
     collection_owner = models.CharField('collection_owner', max_length=200)  # collection_owner
     collection_uid = models.CharField('collection_uid', max_length=200)  # collection_uid
     collection_path = models.CharField('collection_path', max_length=200)  # collection_path
-    status = models.BooleanField('是否有效', default=1) # status
+    status = models.BooleanField('是否有效') # status
+    run_status = models.BooleanField('运行结果')  # run_status
     remark = models.CharField('remark', max_length=200)  # remark
     create_time = models.DateTimeField('创建时间', auto_now=True)  # 创建时间，自动获取当前时间
 
@@ -39,7 +40,7 @@ class Envs(models.Model):
     env_name = models.CharField('env_name', max_length=200)  # env_name
     env_owner = models.CharField('env_owner', max_length=200)  # env_owner
     env_uid = models.CharField('env_uid', max_length=200)  # env_uid
-    env_path = models.CharField('env_path', max_length=200, default="")  # env_path
+    env_path = models.CharField('env_path', max_length=200)  # env_path
     create_time = models.DateTimeField('创建时间', auto_now=True)  # 创建时间，自动获取当前时间
 
     class Meta:

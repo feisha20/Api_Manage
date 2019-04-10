@@ -1,5 +1,8 @@
+# -*- coding: UTF-8 -*-
 import django
 import os
+import subprocess
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
 django.setup()
 import json
@@ -44,7 +47,7 @@ def get_collections(request):
                 collection_uid = xkey
                 values = (collection_id, collection_name, collection_owner, collection_uid)
                 inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values' + str(
-                    values ) + "ON DUPLICATE KEY UPDATE  collection_id=collection_id"
+                    values) + "ON DUPLICATE KEY UPDATE  collection_id=collection_id"
                 write_db(inster_collections)
 
     username = request.session.get('user', '')  # 读取浏览器登录session
@@ -85,6 +88,7 @@ def create_collection_json_file(filename, cid):
     write_db(sql)
     return newfile
 
+
 # collection列表搜索
 @login_required
 def collection_search(request):
@@ -112,6 +116,7 @@ def eidt_collection(request):
         collection_list = Collections.objects.all()  # 读取collection
         return render(request, "collections_manage.html", {"collections": collection_list})
 
+
 # 删除collection
 @login_required
 def del_collection(request):
@@ -119,3 +124,35 @@ def del_collection(request):
     models.Collections.objects.filter(id=nid).delete()
     collection_list = Collections.objects.all()  # 读取xkey
     return render(request, "collections_manage.html", {"collections": collection_list})
+
+
+# Runcollection
+@login_required
+def run_collection(request):
+    if request.method == 'GET':
+        nid = request.GET.get('nid')
+        uid = request.GET.get('uid')
+        obj = models.Collections.objects.filter(id=nid).first()
+        obj2 = models.Envs.objects.filter(env_uid=uid).all()
+        return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2})
+    elif request.method == 'POST':
+        nid = request.GET.get('nid')
+        obj = models.Collections.objects.filter(id=nid).first()
+        col_file = obj.collection_path
+        col_file_name = obj.collection_name
+        print(col_file)
+        # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
+        run_sh = "cd ../collections & newman run " + col_file + " -r html --reporter-html-export ./report/" + col_file_name + ".html"
+        print(run_sh)
+        f = subprocess.call(run_sh, shell=True)
+        collection_list = Collections.objects.all()
+        if f == 0:
+            models.Collections.objects.filter(id=nid).update(run_status=1)
+            return render(request, 'collections_manage.html',{"collections": collection_list})
+        else:
+            models.Collections.objects.filter(id=nid).update(run_status=0)
+            return render(request, 'collections_manage.html',{"collections": collection_list})
+
+
+
+

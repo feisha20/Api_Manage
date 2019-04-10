@@ -54,8 +54,10 @@
                                 <th class="hidden">CollectionId</th>
                                 <th>CollectionName</th>
                                 <th>CollectionOwner</th>
+                                <th class="hidden">CollectionUid</th>
                                 <th>CollectionPath</th>
-                                <th>Status</th>
+                                <th class="hidden">Status</th>
+                                <th>运行结果</th>
                                 <th>Remark</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
@@ -68,16 +70,27 @@
                                     <td class="hidden">{{ collection.collection_id }}</td>
                                     <td>{{ collection.collection_name }}</td>
                                     <td>{{ collection.collection_owner}}</td>
+                                    <td class="hidden">{{ collection.collection_uid}}</td>
                                     <td>{{ collection.collection_path }}</td>
-                                    <td>{% if collection.status == 1 %}
+                                    <td class="hidden">
+                                        {% if collection.status == 1 %}
                                             <a style="color: green">{{ collection.status }}</a>
                                             {% else %}
                                             <a style="color: red">{{ collection.status }}</a>
-                                            {% endif %}</td>
+                                        {% endif %}
+                                    </td>
+                                    <td>{% if collection.run_status == 1 %}
+                                            <a style="color: green">Pass</a>
+                                            {% elif collection.run_status == 0 %}
+                                                <a style="color: red">Fail</a>
+                                            {% else %}
+                                                <a style="color: grey">None</a>
+                                        {% endif %}
+                                    </td>
                                     <td>{{ collection.remark }}</td>
                                     <td>{{ collection.create_time}}</td>
                                     <td><a  href="/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
-                                        &nbsp;&nbsp;<a>运行</a>
+                                        &nbsp;&nbsp;<a href="/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}">运行</a>
                                         &nbsp;&nbsp;<a href="/edit_collection.html?nid={{ collection.id }}">编辑</a>
                                         &nbsp;&nbsp;<a href="/del_collection.html?nid={{ collection.id }}" style="color: grey" onclick="return confirmDel()">删除</a>
                                 </tr>
