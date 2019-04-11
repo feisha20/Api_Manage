@@ -127,31 +127,67 @@ def del_collection(request):
     return render(request, "collections_manage.html", {"collections": collection_list})
 
 
+# # Runcollection
+# @login_required
+# def run_collection(request):
+#     if request.method == 'GET':
+#         nid = request.GET.get('nid')
+#         uid = request.GET.get('uid')
+#         obj = models.Collections.objects.filter(id=nid).first()
+#         obj2 = models.Envs.objects.filter(env_uid=uid).all()
+#         return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2})
+#     elif request.method == 'POST':
+#         nid = request.GET.get('nid')
+#         env_file = request.GET.get('env_path')
+#         print(env_file)
+#         obj = models.Collections.objects.filter(id=nid).first()
+#         col_file = obj.collection_path
+#         col_file_name = obj.collection_name
+#         report_file = col_file_name + ".html"
+#         # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
+#         report_template = "--ignore-redirects --reporters cli,html --reporter-html-template templates/template-default-colored.hbs"
+#         run_sh = "cd ../collections & newman run " + col_file + " -e " + str(env_file) + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
+#         print(run_sh)
+#         f = subprocess.call(run_sh, shell=True)
+#         collection_list = Collections.objects.all()
+#         if f == 0:
+#             models.Collections.objects.filter(id=nid).update(run_status=1)
+#             return render(request, 'collections_manage.html', {"collections": collection_list})
+#         else:
+#             models.Collections.objects.filter(id=nid).update(run_status=0)
+#             return render(request, 'collections_manage.html', {"collections": collection_list})
+
+
 # Runcollection
 @login_required
+def get_collection_detail(request):
+    nid = request.GET.get('nid')
+    uid = request.GET.get('uid')
+    obj = models.Collections.objects.filter(id=nid).first()
+    obj2 = models.Envs.objects.filter(env_uid=uid).all()
+    return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2})
+
+
+@login_required
 def run_collection(request):
-    if request.method == 'GET':
-        nid = request.GET.get('nid')
-        uid = request.GET.get('uid')
-        obj = models.Collections.objects.filter(id=nid).first()
-        obj2 = models.Envs.objects.filter(env_uid=uid).all()
-        return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2})
-    elif request.method == 'POST':
-        nid = request.GET.get('nid')
-        obj = models.Collections.objects.filter(id=nid).first()
-        col_file = obj.collection_path
-        col_file_name = obj.collection_name
-        report_file = col_file_name + ".html"
-        print(col_file)
-        # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
-        report_template = "--ignore-redirects --reporters cli,html --reporter-html-template templates/template-default-colored.hbs"
-        run_sh = "cd ../collections & newman run " + col_file + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
-        print(run_sh)
-        f = subprocess.call(run_sh, shell=True)
-        collection_list = Collections.objects.all()
-        if f == 0:
-            models.Collections.objects.filter(id=nid).update(run_status=1)
-            return render(request, 'collections_manage.html', {"collections": collection_list})
-        else:
-            models.Collections.objects.filter(id=nid).update(run_status=0)
-            return render(request, 'collections_manage.html', {"collections": collection_list})
+    env_file = request.POST.get('env_path')
+    cid = request.POST.get('cid')
+    print(env_file)
+    print(cid)
+    col_file = request.POST.get('collection_path')
+    print(col_file)
+    col_file_name = request.POST.get('collection_name')
+    print(col_file_name)
+    report_file = col_file_name + ".html"
+    # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
+    report_template = "--ignore-redirects --reporters cli,html --reporter-html-template templates/template-default-colored.hbs"
+    run_sh = "cd ../collections & newman run " + col_file + " -e " + str(env_file) + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
+    print(run_sh)
+    f = subprocess.call(run_sh, shell=True)
+    collection_list = Collections.objects.all()
+    if f == 0:
+        models.Collections.objects.filter(id=cid).update(run_status=1)
+        return render(request, 'collections_manage.html', {"collections": collection_list})
+    else:
+        models.Collections.objects.filter(id=cid).update(run_status=0)
+        return render(request, 'collections_manage.html', {"collections": collection_list})

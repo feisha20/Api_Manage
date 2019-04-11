@@ -90,8 +90,8 @@
                                     <td>{{ collection.remark }}</td>
                                     <td>{{ collection.create_time}}</td>
                                     <td><a  href="/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
-                                        <a href="/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}" disabled>运行</a>
-                                        &nbsp;&nbsp;<a href="/edit_collection.html?nid={{ collection.id }}">编辑</a>
+                                        <a href="/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}">运行</a>
+                                        &nbsp;&nbsp;<a href="/edit_collection.html?nid={{ collection.id }}" >编辑</a>
                                         &nbsp;&nbsp;<a href="/del_collection.html?nid={{ collection.id }}" style="color: grey" onclick="return confirmDel()">删除</a>
                                 </tr>
                             {% endfor %}
