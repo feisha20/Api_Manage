@@ -46,5 +46,6 @@ urlpatterns = [
     path('del_collection.html', views_coll.del_collection),
     path('run_collection.html', views_coll.get_collection_detail),
     path('run_collection/', views_coll.run_collection),
+    path('stop_collection.html/', views_coll.stop_collection),
     url('^report/(?P<path>.*)$',serve, {'document_root':settings.REPORT_ROOT}),
 ]

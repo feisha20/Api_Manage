@@ -22,6 +22,7 @@ class Collections(models.Model):
     collection_owner = models.CharField('collection_owner', max_length=200)  # collection_owner
     collection_uid = models.CharField('collection_uid', max_length=200)  # collection_uid
     collection_path = models.CharField('collection_path', max_length=200)  # collection_path
+    run_pid = models.CharField('run_pid',max_length=20) # run_pid
     status = models.BooleanField('是否有效') # status
     run_status = models.BooleanField('运行结果')  # run_status
     remark = models.CharField('remark', max_length=200)  # remark

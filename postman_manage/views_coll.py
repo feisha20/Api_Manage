@@ -2,7 +2,7 @@
 import django
 import os
 import subprocess
-import time
+import psutil
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
 django.setup()
@@ -171,23 +171,44 @@ def get_collection_detail(request):
 @login_required
 def run_collection(request):
     env_file = request.POST.get('env_path')
+    print("env_file:" + env_file)
     cid = request.POST.get('cid')
-    print(env_file)
-    print(cid)
     col_file = request.POST.get('collection_path')
-    print(col_file)
     col_file_name = request.POST.get('collection_name')
-    print(col_file_name)
     report_file = col_file_name + ".html"
     # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
     report_template = "--ignore-redirects --reporters cli,html --reporter-html-template templates/template-default-colored.hbs"
-    run_sh = "cd ../collections & newman run " + col_file + " -e " + str(env_file) + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
+    if env_file != "":
+        run_sh = "cd ../collections & newman run " + col_file + " -e " + str(env_file) + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
+    else:
+        run_sh = "cd ../collections & newman run " + col_file + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
     print(run_sh)
-    f = subprocess.call(run_sh, shell=True)
+    p = subprocess.Popen(run_sh, shell=True)
+    pid = p.pid
+    models.Collections.objects.filter(id=cid).update(run_pid=pid)
     collection_list = Collections.objects.all()
+    f = p.wait()
     if f == 0:
         models.Collections.objects.filter(id=cid).update(run_status=1)
         return render(request, 'collections_manage.html', {"collections": collection_list})
     else:
         models.Collections.objects.filter(id=cid).update(run_status=0)
         return render(request, 'collections_manage.html', {"collections": collection_list})
+
+
+@login_required
+def stop_collection(request):
+    nid = request.GET.get('nid')
+    obj = models.Collections.objects.filter(id=nid).first()
+    collection_list = Collections.objects.all()
+    pid = obj.run_pid
+    children_id = psutil.Process(int(pid)).children()
+    children_id = str(children_id).split()[0].split('=')[-1].split(',')[0]
+    print("-----------杀死newman进程--------------")
+    shell = "taskkill /f /pid " + str(children_id)
+    print(shell)
+    subprocess.Popen(shell)
+    return render(request, 'collections_manage.html', {"collections": collection_list})
+
+
+
