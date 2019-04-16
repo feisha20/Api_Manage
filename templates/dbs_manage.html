@@ -1,0 +1,129 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>API管理平台 -Dbs管理</title>
+
+    <link rel="shortcut icon">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <form method="get" action="/dbsearch/">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="search" name="name" placeholder="请输入数据库名称"
+                                           class="input-sm form-control">
+                                    <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+                                        </span>
+
+                                </div>
+                            </form>
+                            <div class="text-left">
+                                <a data-toggle="modal" class="btn btn-primary"
+                                   href="/add_db.html">新增</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>数据库名称</th>
+                                <th>host</th>
+                                <th>port</th>
+                                <th>user</th>
+                                <th>password</th>
+                                <th>db</th>
+                                <th>创建时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for db in dbs %}
+                                <tr>
+                                    <td>{{ db.name }}</td>
+                                    <td>{{ db.host }}</td>
+                                    <td>{{ db.port}}</td>
+                                    <td>{{ db.user }}</td>
+                                    <td>{{ db.password }}</td>
+                                    <td>{{ db.db }}</td>
+                                    <td>{{ db.create_time}}</td>
+                                    <td><a href="/edit_db.html?nid={{ db.id }}">编辑</a>&nbsp;&nbsp;<a
+                                            href="/del_db.html?nid={{ db.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+<!-- Peity -->
+<script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
+
+<!-- 自定义js -->
+<script src="{% static 'js/content.js' %}"></script>
+
+<!-- CodeMirror -->
+<script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
+<script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
+
+<!-- iCheck -->
+<script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
+
+<!-- Peity -->
+<script src="{% static 'js/demo/peity-demo.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            styleActiveLine: true
+        });
+    });
+</script>
+
+
+<script language="JavaScript">
+function confirmDel(){
+return confirm("是否确定删除？");
+}
+</script>
+
+
+</body>
+
+</html>

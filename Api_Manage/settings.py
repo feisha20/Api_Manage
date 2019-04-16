@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'postman_manage',
     'bootstrap4',
     'showcase',
+    'sys_settings',
 ]
 
 MIDDLEWARE = [

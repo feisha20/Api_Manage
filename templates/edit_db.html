@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑db</title>
+    <link rel="shortcut icon">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="col-sm-11" style="width: 30%" >
+    <form role="form" action="/edit_db.html?nid={{ obj.id }}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>数据库名称：</label>
+            <input type="text" name="name" value="{{ obj.name }}" class="form-control" required="">
+        </div>
+        <div class="form-group">
+            <label>host：</label>
+            <input type="text" name="host" value="{{ obj.host }}" class="form-control" required="">
+        </div>
+        <div class="form-group">
+            <label>port：</label>
+            <input type="text" name="port" value="{{ obj.port }}" class="form-control" required="">
+        </div>
+        <div class="form-group">
+            <label>user：</label>
+            <input type="text" name="user" value="{{ obj.user }}" class="form-control" required="">
+        </div>
+        <div class="form-group">
+            <label>password：</label>
+            <input type="text" name="password" value="{{ obj.password }}" class="form-control" required="">
+        </div>
+        <div class="form-group">
+            <label>db：</label>
+            <input type="text" name="db" value="{{ obj.db }}" class="form-control" required="">
+        </div>
+        <div>
+            <button class="btn btn-sm btn-primary m-t-n-xs"
+                    type="submit"><strong>保存</strong>
+            </button>
+            <button class="btn btn-default btn-sm m-t-n-xs" onclick="javascript:history.back(-1);"
+                    type="button"><strong>取消</strong>
+            </button>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
