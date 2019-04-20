@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'showcase',
     'sys_settings',
+    'open_api',
 ]
 
 MIDDLEWARE = [

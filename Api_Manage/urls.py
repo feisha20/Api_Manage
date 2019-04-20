@@ -21,8 +21,9 @@ from postman_manage import views_xkey
 from postman_manage import views_env
 from django.views.static import serve
 from django.conf import settings
-from django.conf.urls import url
+from django.conf.urls import url, include
 from sys_settings import views_dbs
+from open_api import views_open
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -54,4 +55,7 @@ urlpatterns = [
     path('edit_db.html', views_dbs.eidt_db),
     path('del_db.html', views_dbs.del_db),
     path('dbsearch/', views_dbs.db_search),
+    url(r'^open_api/', include('open_api.urls', namespace="open_api")),
+    path('open_api/sqlr/', views_open.sqlr),
+    path('open_api/sqlw/', views_open.sqlw),
 ]
