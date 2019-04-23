@@ -57,5 +57,5 @@ urlpatterns = [
     path('dbsearch/', views_dbs.db_search),
     url(r'^open_api/', include('open_api.urls', namespace="open_api")),
     path('open_api/sqlr/', views_open.sqlr),
-    path('open_api/sqlw/', views_open.sqlw),
+    # path('open_api/sqlw/', views_open.sqlw),
 ]

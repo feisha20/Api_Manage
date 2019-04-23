@@ -6,5 +6,5 @@ urlpatterns = [
     # test_api interface:
     # ex: /oepn_api/sql/
     url(r'sqlr/', views_open.sqlr, name='sql'),
-    url(r'sqlw/', views_open.sqlw, name='sql'),
+    # url(r'sqlw/', views_open.sqlw, name='sql'),
 ]
