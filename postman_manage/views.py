@@ -3,14 +3,17 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 import pymysql
 from django.shortcuts import render
+from Api_Manage.settings import DATABASES
+
+db = DATABASES
 
 # 数据库的链接信息
 con = pymysql.connect(
-    host="127.0.0.1",
-    port=3306,
-    user='root',
-    password='test123456',
-    db="apimanage",
+    host=db["default"]["HOST"],
+    port=int(db["default"]["PORT"]),
+    user=db["default"]["USER"],
+    password=db["default"]["PASSWORD"],
+    db=db["default"]["NAME"],
     charset="utf8",
 )
 

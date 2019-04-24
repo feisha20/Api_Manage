@@ -2,6 +2,7 @@ from django.shortcuts import render
 from sys_settings import models
 from sys_settings.models import Dbs
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password, check_password
 # Create your views here.
 
 # DBS管理
@@ -22,7 +23,7 @@ def add_db(request):
         host = request.POST.get('host')
         port = request.POST.get('port')
         user = request.POST.get('user')
-        password = request.POST.get('password')
+        password = make_password(request.POST.get('password'), 'pbkdf2_sha256')
         db = request.POST.get('db')
         models.Dbs.objects.create(
             name=name,
