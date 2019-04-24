@@ -26,7 +26,7 @@ SECRET_KEY = '+r9xrm2(+1*j!)kf3$-n4h70mrj=10i@^3y6r*ote-)t+0%#!z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,6 +86,7 @@ WSGI_APPLICATION = 'Api_Manage.wsgi.application'
 #     }
 # }
 
+# 本地设置
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -96,6 +97,18 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+# 生产配置
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'apimanage',
+#         'USER': 'apimanager',
+#         'PASSWORD': 'cfBQP4dgXM1k0Or5ho',
+#         'HOST': 'infra.mysql.topideal.work',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
@@ -141,3 +154,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
