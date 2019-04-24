@@ -23,7 +23,7 @@ def add_db(request):
         host = request.POST.get('host')
         port = request.POST.get('port')
         user = request.POST.get('user')
-        password = make_password(request.POST.get('password'), 'pbkdf2_sha256')
+        password = request.POST.get('password')
         db = request.POST.get('db')
         models.Dbs.objects.create(
             name=name,
