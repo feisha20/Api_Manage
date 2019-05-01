@@ -146,11 +146,14 @@ def run_collection(request):
     col_file_name = request.POST.get('collection_name')
     report_file = col_file_name + ".html"
     # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
-    report_template = "--ignore-redirects --reporters cli,html --reporter-html-template templates/template-default-colored.hbs"
+    collections_path = os.path.dirname(os.path.dirname(__file__)) + "/collections/"
+    report_path = os.path.dirname(os.path.dirname(__file__)) + "/report/"
+    report_template_path = os.path.dirname(os.path.dirname(__file__)) + "/collections/templates/"
+    report_template = "--ignore-redirects --reporters cli,html --reporter-html-template" + report_template_path + "template-default-colored.hbs"
     if env_file != "":
-        run_sh = "cd ../collections & newman run " + col_file + " -e " + str(env_file) + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
+        run_sh = "newman run " + collections_path + col_file + " -e " + collections_path + str(env_file) + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
     else:
-        run_sh = "cd ../collections & newman run " + col_file + " -r html --reporter-html-export ../report/" + report_file + " " + report_template
+        run_sh = "newman run " + collections_path + col_file + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
     print(run_sh)
     p = subprocess.Popen(run_sh, shell=True)
     pid = p.pid
@@ -178,6 +181,5 @@ def stop_collection(request):
     print(shell)
     subprocess.Popen(shell)
     return render(request, 'collections_manage.html', {"collections": collection_list})
-
 
 
