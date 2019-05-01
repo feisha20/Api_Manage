@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import os
 import django
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'test_manage.settings'
 django.setup()
 from django.views.decorators.csrf import csrf_exempt
 import pymysql

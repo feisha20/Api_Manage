@@ -1,6 +1,6 @@
 import django
 import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'test_manage.settings'
 django.setup()
 import json
 from django.contrib.auth.decorators import login_required

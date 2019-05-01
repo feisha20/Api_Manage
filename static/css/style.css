@@ -4791,7 +4791,7 @@ body.modal-open {
     max-width: 400px;
     z-index: 100;
     margin: 0 auto;
-    padding-top: 40px;
+    padding-top: 150px;
 }
 
 .lockscreen.middle-box {
@@ -4816,10 +4816,10 @@ body.modal-open {
 }
 
 .logo-name {
-    color: #e6e6e6;
-    font-size: 180px;
+    color: #999;
+    font-size: 40px;
     font-weight: 800;
-    letter-spacing: -10px;
+    letter-spacing: 5px;
     margin-bottom: 0px;
 }
 

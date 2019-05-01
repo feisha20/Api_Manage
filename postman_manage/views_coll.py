@@ -4,7 +4,7 @@ import os
 import subprocess
 import psutil
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'Api_Manage.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'test_manage.settings'
 django.setup()
 import json
 from django.contrib.auth.decorators import login_required
@@ -75,7 +75,7 @@ def get_single_collection(request):
 
 # 创建json文件
 def create_collection_json_file(filename, cid):
-    path = "F:\\Api_manage\\collections\\"
+    path = os.path.dirname(__file__) + "/collections/"
     suffix = ".json"
     file = "col-" + filename + suffix
     newfile = path + file
@@ -146,9 +146,9 @@ def run_collection(request):
     col_file_name = request.POST.get('collection_name')
     report_file = col_file_name + ".html"
     # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
-    collections_path = os.path.dirname(os.path.dirname(__file__)) + "/collections/"
-    report_path = os.path.dirname(os.path.dirname(__file__)) + "/report/"
-    report_template_path = os.path.dirname(os.path.dirname(__file__)) + "/collections/templates/"
+    collections_path =os.path.dirname(__file__) + "/collections/"
+    report_path = os.path.dirname(__file__) + "/report/"
+    report_template_path = os.path.dirname(__file__) + "/collections/templates/"
     report_template = "--ignore-redirects --reporters cli,html --reporter-html-template" + report_template_path + "template-default-colored.hbs"
     if env_file != "":
         run_sh = "newman run " + collections_path + col_file + " -e " + collections_path + str(env_file) + " -r html --reporter-html-export " + report_path + report_file + " " + report_template

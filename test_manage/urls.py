@@ -1,4 +1,4 @@
-"""Api_Manage URL Configuration
+"""test_manage URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -25,12 +25,14 @@ from django.conf.urls import url, include
 from sys_settings import views_dbs
 from open_api import views_open
 from django.conf.urls.static import static
+import templates
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   url(r'^$', views.login),
                   path('login/', views.login),
                   path('home/', views.home),
+                  path('home/index_v1.html', views.index),
                   path('logout/', views.logout),
                   path('get_xkey/', views_xkey.get_xkey),
                   path('add_xkey.html', views_xkey.add_xkey),

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     {% block title %}
-    <title>API 管理平台 - 主页</title>
+    <title>测试管理平台 - 主页</title>
     {% endblock %}
 
     <!--[if lt IE 9]>
@@ -29,9 +29,10 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
-                        <div class="dropdown profile-element">
-                           <a><h3>API 管理平台</h3></a>
-
+                        <div class="profile-element" style="height: 20px">
+                            <div style="width: 100%">
+                                <img alt="logo" height="30" width="140" src="/static/img/logo.png"/>
+                            </div>
                         </div>
                         <div class="logo-element">H+
                         </div>
@@ -114,7 +115,7 @@
                 <a href="/logout" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="" frameborder="0" data-id="" seamless>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index_v1.html" frameborder="0" data-id="index_v1.html" seamless>
                     {% block content %}
                     {% endblock %}
                 </iframe>

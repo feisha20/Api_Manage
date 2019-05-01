@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 import pymysql
 from django.shortcuts import render
-from Api_Manage.settings import DATABASES
+from test_manage.settings import DATABASES
 
 db = DATABASES
 
@@ -59,6 +59,10 @@ def login(request):
 # 首页
 def home(request):
     return render(request, "home.html")
+
+def index(request):
+    return render(request, "index_v1.html")
+
 
 
 # 登出
