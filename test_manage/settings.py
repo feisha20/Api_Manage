@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'showcase',
     'sys_settings',
     'open_api',
+    'project_manage',
 ]
 
 MIDDLEWARE = [

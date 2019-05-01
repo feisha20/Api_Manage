@@ -25,7 +25,7 @@ from django.conf.urls import url, include
 from sys_settings import views_dbs
 from open_api import views_open
 from django.conf.urls.static import static
-import templates
+from project_manage import views_project
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -55,6 +55,11 @@ urlpatterns = [
                   path('stop_collection.html/', views_coll.stop_collection),
                   url('^report/(?P<path>.*)$', serve, {'document_root': settings.REPORT_ROOT}),
                   path('dbs_manage/', views_dbs.get_dbs),
+                  path('projects_manage/', views_project.get_projects),
+                  path('add_project.html', views_project.add_project),
+                  path('edit_project.html', views_project.eidt_project),
+                  path('del_project.html', views_project.del_project),
+                  path('projectsearch/', views_project.project_search),
                   path('add_db.html', views_dbs.add_db),
                   path('edit_db.html', views_dbs.eidt_db),
                   path('del_db.html', views_dbs.del_db),
