@@ -4,6 +4,8 @@ from django.contrib import auth
 import pymysql
 from django.shortcuts import render
 from test_manage.settings import DATABASES
+from django.contrib.auth.decorators import login_required
+from project_manage.models import ProjectVersion
 
 db = DATABASES
 
@@ -60,9 +62,11 @@ def login(request):
 def home(request):
     return render(request, "home.html")
 
+@login_required
 def index(request):
-    return render(request, "index_v1.html")
-
+    username = request.session.get('user', '')  # 读取浏览器登录session
+    projectversion_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取project
+    return render(request, "index_v1.html", {"user": username, "projectversions": projectversion_list})
 
 
 # 登出

@@ -67,3 +67,44 @@ def project_search(request):
     search_name = request.GET.get("name", "")
     project_list = Projects.objects.filter(name__contains=search_name)
     return render(request, 'projects_manage.html', {"user": username, "projects": project_list})
+
+
+# projectversion管理
+@login_required
+def get_projectversion(request):
+    username = request.session.get('user', '')  # 读取浏览器登录session
+    projectversion_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取project
+    return render(request, "projectversion_manage.html", {"user": username, "projectversions": projectversion_list})
+
+
+# projectversion详情
+@login_required
+def get_projectversion_detail(request):
+    nid = request.GET.get('nid')
+    Pid = request.GET.get('pid')
+    obj = models.ProjectVersion.objects.filter(id=nid).first()
+    obj2 = models.Projects.objects.filter(id=Pid).all()
+    return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2})
+
+
+# 新增project
+@login_required
+def add_projectversion(request):
+    if request.method == 'GET':
+        project_list = Projects.objects.all()
+        return render(request, 'add_projectversion.html', {"projects":project_list})
+    elif request.method == 'POST':
+        project_name = request.POST.get('project_name')
+        version_no = request.POST.get('version_no')
+        summary = request.POST.get('summary')
+        detail = request.POST.get('detail')
+        publish_date = request.POST.get('publish_date')
+        models.ProjectVersion.objects.create(
+            project_name=project_name,
+            version_no=version_no,
+            summary=summary,
+            detail=detail,
+            publish_date=publish_date,
+        )
+    projectversion_list = ProjectVersion.objects.all()  # 读取project
+    return render(request, "projects_manage.html", {"projectversions": projectversion_list})

@@ -60,6 +60,8 @@ urlpatterns = [
                   path('edit_project.html', views_project.eidt_project),
                   path('del_project.html', views_project.del_project),
                   path('projectsearch/', views_project.project_search),
+                  path('projectversion_manage/', views_project.get_projectversion),
+                  path('add_projectversion.html', views_project.add_projectversion),
                   path('add_db.html', views_dbs.add_db),
                   path('edit_db.html', views_dbs.eidt_db),
                   path('del_db.html', views_dbs.del_db),

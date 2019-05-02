@@ -7,112 +7,108 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>首页</title>
 
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}"> <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <title>H+ 后台主题UI框架 - 时间轴</title>
+
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
-
     <link href="{% static 'css/animate.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    
 
 </head>
 
 <body class="gray-bg">
-    <div class="wrapper wrapper-content">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>系统发布日志</h5>
-                    </div>
-                    <div class="ibox-content no-padding">
-                        <div class="panel-body">
-                            <div class="panel-group" id="version">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#version" href="#v41">卓普信v2.6.0</a><code class="pull-right">2019.05.05</code>
-                                            </h5>
-                                    </div>
-                                    <div id="v41" class="panel-collapse collapse in">
-                                        <div class="panel-body">
-                                            <div class="alert alert-warning">此版本主要是更新了支持多资金方业务的功能改造，涉及全系统功能的改造。</div>
-                                            <ol>
-                                                <li>支持多资金方的功能改造；</li>
-                                                <li>新增业务线：境内代采业务；</li>
-                                                <li>基于多资金改造和引入的新业务线相应的功能调整；</li>
-                                            </ol>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#version" href="#v40">企业库V1.2</a><code class="pull-right">2019-04-19</code>
-                                            </h5>
-                                    </div>
-                                    <div id="v40" class="panel-collapse collapse">
-                                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="wrapper wrapper-content">
+                <div class="row animated fadeInRight">
+                    <div class="col-sm-12">
+                        <div class="ibox float-e-margins">
+                            <div class="text-center">
+                                <h1>系统发布日志</h1>
+                            </div>
+                            <div class="ibox-content" id="ibox-content">
 
-                                            <ol>
-                                                <li>增加了经分销ERP和普洛斯数仓的订单数据对接功能，现在可定时同步订单数据；</li>
-                                                <li>部分性能优化和bug修复；</li>
-                                            </ol>
+                                <div id="vertical-timeline" class="vertical-container center-orientation dark-timeline">
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon navy-bg">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>{{ projectversions.first.project_name }}&nbsp;{{ projectversions.first.version_no  }}</h2>
+                                            <p>{{ projectversions.first.summary }}
+                                            </p>
+                                            <a href="../projectversion_manage" class="btn btn-sm btn-primary"> 更多信息</a>
+                                            <span class="vertical-date">发布日期<br>
+                                        <small>{{ projectversions.first.publish_date }}</small>
+                                    </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#version" href="#v32">柠盟数智V1.0</a><code class="pull-right">2019.04.11</code>
-                                            </h5>
-                                    </div>
-                                    <div id="v32" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <div class="alert alert-warning">此版本是柠盟数智第一个版本。</div>
-                                            <ol>
-                                                <li>贷前客户端系统：支持客户在客户端发起融资意向申请及查看授信情况；</li>
-                                                <li>贷前后台审批系统：客户管理，授信管理，融资意向管理，企业数据管理，账户管理，后台管理；</li>
-                                                <li>贷前系统对接了企业库，贷中系统，商品库，大数据等系统；</li>
-                                            </ol>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon blue-bg">
+                                            <i class="fa fa-file-text"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>{{ projectversions.2.project_name}}&nbsp;{{ projectversions.2.version_no  }}</h2>
+                                            <p>{{ projectversions.2.summary}}</p>
+                                            <a href="#" class="btn btn-sm btn-success"> 更多信息 </a>
+                                            <span class="vertical-date">发布日期<br>
+                                        <small>{{ projectversions.2.publish_date }}</small>
+                                    </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#version" href="#v31">测试管理平台v1.0</a><code class="pull-right">2019.04.03</code>
-                                            </h5>
-                                    </div>
-                                    <div id="v31" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ol>
-                                                <li>支持postman管理：包括xkey管理，collection同步、执行和报告的查看、环境变量的同步；</li>
-                                                <li>开放api，支持通过接口查询数据库；</li>
-                                                <li>数据库配置功能，供openapi调用；</li>
-                                            </ol>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon lazur-bg">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>{{ projectversions.3.project_name}}&nbsp;{{ projectversions.3.version_no  }}</h2>
+                                            <p>{{ projectversions.3.summary}}</p>
+                                            <a href="#" class="btn btn-sm btn-info">更多信息</a>
+                                            <span class="vertical-date"> 发布日期<br><small>{{ projectversions.3.publish_date }}</small></span>
                                         </div>
                                     </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon yellow-bg">
+                                            <i class="fa fa-file-text"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>{{ projectversions.4.project_name}}&nbsp;{{ projectversions.4.version_no  }}</h2>
+                                            <p>{{ projectversions.4.summary}}</p>
+                                            <a href="#" class="btn btn-sm btn-warning"> 更多信息 </a>
+                                            <span class="vertical-date">发布日期 <br><small>{{ projectversions.4.publish_date }}</small></span>
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
     <!-- 全局js -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/plugins/layer/layer.min.js' %}"></script>
+
+
 
     <!-- 自定义js -->
     <script src="{% static 'js/content.js' %}"></script>
-
-    <!-- 欢迎信息 -->
-    <script src="{% static 'js/welcome.js' %}"></script>
 </body>
 
 </html>
