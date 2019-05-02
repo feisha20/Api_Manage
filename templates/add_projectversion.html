@@ -38,7 +38,8 @@
         </div>
         <div class="form-group">
             <label>版本详情：</label>
-            <textarea id="code1" name="detail">
+            <br>
+            <textarea rows="10" cols="65" name="detail">
             </textarea>
 {#            <input type="text" name="detail"  class="form-control" required="">#}
         </div>
@@ -75,18 +76,6 @@
 <!-- CodeMirror -->
 <script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
 <script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            styleActiveLine: true
-        });
-    });
-</script>
 
 </body>
 </html>

@@ -64,11 +64,11 @@
                                 <tr>
                                     <td class="hidden">{{ projectversion.id }}</td>
                                     <td class="hidden">{{ projectversion.project_id }}</td>
-                                    <td>{{ projectversion.project_name }}</td>
-                                    <td>{{ projectversion.version_no }}</td>
-                                    <td><style type="text/css"> .test{-o-text-overflow:ellipsis;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:70px;} </style> {{ projectversion.summary}}</td>
-                                    <td class="notext">{{ projectversion.detail }}</td>
-                                    <td>{{ projectversion.publish_date }}</td>
+                                    <td style="width: 8%">{{ projectversion.project_name }}</td>
+                                    <td style="width: 5%">{{ projectversion.version_no }}</td>
+                                    <td style="width: 20%">{{ projectversion.summary}}</td>
+                                    <td style="width: 50%">{{ projectversion.detail }}</td>
+                                    <td>{{ projectversion.publish_date|date:"Y-m-d" }}</td>
                                     <td><a href="/edit_projectversion?nid={{ projectversion.id }}&pid={{ projectversion.project_id }}">编辑</a>&nbsp;&nbsp;<a
                                             href="/del_projectversion.html?nid={{ projectversion.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
                                 </tr>

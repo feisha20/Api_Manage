@@ -44,7 +44,7 @@
                                             </p>
                                             <a href="../projectversion_manage" class="btn btn-sm btn-primary"> 更多信息</a>
                                             <span class="vertical-date">发布日期<br>
-                                        <small>{{ projectversions.first.publish_date }}</small>
+                                        <small>{{ projectversions.first.publish_date|date:"Y-m-d" }}</small>
                                     </span>
                                         </div>
                                     </div>
@@ -59,7 +59,7 @@
                                             <p>{{ projectversions.2.summary}}</p>
                                             <a href="#" class="btn btn-sm btn-success"> 更多信息 </a>
                                             <span class="vertical-date">发布日期<br>
-                                        <small>{{ projectversions.2.publish_date }}</small>
+                                        <small>{{ projectversions.2.publish_date|date:"Y-m-d" }}</small>
                                     </span>
                                         </div>
                                     </div>
@@ -73,7 +73,7 @@
                                             <h2>{{ projectversions.3.project_name}}&nbsp;{{ projectversions.3.version_no  }}</h2>
                                             <p>{{ projectversions.3.summary}}</p>
                                             <a href="#" class="btn btn-sm btn-info">更多信息</a>
-                                            <span class="vertical-date"> 发布日期<br><small>{{ projectversions.3.publish_date }}</small></span>
+                                            <span class="vertical-date"> 发布日期<br><small>{{ projectversions.3.publish_date|date:"Y-m-d" }}</small></span>
                                         </div>
                                     </div>
 
@@ -86,7 +86,7 @@
                                             <h2>{{ projectversions.4.project_name}}&nbsp;{{ projectversions.4.version_no  }}</h2>
                                             <p>{{ projectversions.4.summary}}</p>
                                             <a href="#" class="btn btn-sm btn-warning"> 更多信息 </a>
-                                            <span class="vertical-date">发布日期 <br><small>{{ projectversions.4.publish_date }}</small></span>
+                                            <span class="vertical-date">发布日期 <br><small>{{ projectversions.4.publish_date|date:"Y-m-d" }}</small></span>
                                         </div>
                                     </div>
                                     </div>
