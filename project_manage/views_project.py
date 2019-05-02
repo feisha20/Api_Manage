@@ -106,5 +106,50 @@ def add_projectversion(request):
             detail=detail,
             publish_date=publish_date,
         )
-    projectversion_list = ProjectVersion.objects.all()  # 读取project
-    return render(request, "projects_manage.html", {"projectversions": projectversion_list})
+    projectversion_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取projectversion
+    return render(request, "projectversion_manage.html", {"projectversions": projectversion_list})
+
+
+# 修改projectversion
+@login_required
+def eidt_projectversion(request):
+    if request.method == 'GET':
+        vid = request.GET.get('vid')
+        obj = models.ProjectVersion.objects.filter(id=vid).first()
+        project_obj = models.Projects.objects.all()
+        return render(request, 'edit_projectversion.html', {'obj': obj, 'project_obj':project_obj})
+    elif request.method == 'POST':
+        vid = request.GET.get('vid')
+        project_name = request.POST.get('project_name')
+        version_no = request.POST.get('version_no')
+        summary = request.POST.get('summary')
+        detail = request.POST.get('detail')
+        publish_date = request.POST.get('publish_date')
+        models.ProjectVersion.objects.filter(id=vid).update(
+            project_name=project_name,
+            version_no=version_no,
+            summary=summary,
+            detail=detail,
+            publish_date=publish_date,
+
+        )
+        projectversions_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取projectversion
+        return render(request, "projectversion_manage.html", {"projectversions": projectversions_list})
+
+
+# 删除projectversion
+@login_required
+def del_projectversion(request):
+    vid = request.GET.get('vid')
+    models.ProjectVersion.objects.filter(id=vid).delete()
+    projectversions_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取projectversion
+    return render(request, "projectversion_manage.html", {"projectversions": projectversions_list})
+
+
+# projectversion列表搜索
+@login_required
+def projectversion_search(request):
+    username = request.session.get("user", '')
+    search_name = request.GET.get("project_name", '')
+    projectversions_list = ProjectVersion.objects.filter(project_name__contains=search_name).order_by("-publish_date")
+    return render(request, 'projectversion_manage.html', {"user": username, "projectversions": projectversions_list})
