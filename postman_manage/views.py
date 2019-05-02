@@ -66,7 +66,7 @@ def home(request):
 def index(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
     projectversion_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取project
-    return render(request, "index_v1.html", {"user": username, "projectversions": projectversion_list})
+    return render(request, "index_v2.html", {"user": username, "projectversions": projectversion_list})
 
 
 # 文件管理
@@ -78,6 +78,9 @@ def file_manage(request):
 def task_manage(request):
     return render(request, "task_manage.html")
 
+# 首页2
+def index2(request):
+    return render(request, "index_v2.html")
 
 # 登出
 def logout(request):
