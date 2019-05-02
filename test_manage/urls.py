@@ -66,6 +66,8 @@ urlpatterns = [
                   path('edit_db.html', views_dbs.eidt_db),
                   path('del_db.html', views_dbs.del_db),
                   path('dbsearch/', views_dbs.db_search),
+                  path('file_manage/', views.file_manage),
+                  path('task_manage/', views.task_manage),
                   url(r'^open_api/', include('open_api.urls', namespace="open_api")),
                   path('open_api/sqlr/', views_open.sqlr),
                   path('open_api/sqlw/', views_open.sqlw),
