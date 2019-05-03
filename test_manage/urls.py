@@ -26,6 +26,7 @@ from sys_settings import views_dbs
 from open_api import views_open
 from django.conf.urls.static import static
 from project_manage import views_project
+import postman_manage.views as view
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -76,3 +77,6 @@ urlpatterns = [
                   path('open_api/sqlr/', views_open.sqlr),
                   path('open_api/sqlw/', views_open.sqlw),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler404 = view.page_not_found
+handler500 = view.page_error

@@ -6,6 +6,8 @@ from django.shortcuts import render
 from test_manage.settings import DATABASES
 from django.contrib.auth.decorators import login_required
 from project_manage.models import ProjectVersion
+from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
 
 db = DATABASES
 
@@ -86,3 +88,13 @@ def index2(request):
 def logout(request):
     auth.logout(request)
     return render(request, 'login.html')
+
+
+@csrf_exempt
+def page_not_found(request):
+    return render_to_response('404.html')
+
+
+@csrf_exempt
+def page_error(request):
+    return render_to_response('500.html')
