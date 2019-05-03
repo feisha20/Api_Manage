@@ -26,6 +26,7 @@ from sys_settings import views_dbs
 from open_api import views_open
 from django.conf.urls.static import static
 from project_manage import views_project
+from task_manage import views_task
 import postman_manage.views as view
 
 urlpatterns = [
@@ -71,7 +72,15 @@ urlpatterns = [
                   path('del_db.html', views_dbs.del_db),
                   path('dbsearch/', views_dbs.db_search),
                   path('file_manage/', views.file_manage),
-                  path('task_manage/', views.task_manage),
+                  path('task_list/', views_task.task_list),
+                  path('task_manage/', views_task.tasks),
+                  path('add_task', views_task.add_task),
+                  path('to_task1.html', views_task.to_task1),
+                  path('to_task2.html', views_task.to_task2),
+                  path('to_task0.html', views_task.to_task0),
+                  path('to_task3.html', views_task.to_task3),
+                  path('to_task4.html', views_task.to_task4),
+                  path('tasksearch/', views_task.task_search),
                   path('index2/', views.index2),
                   url(r'^open_api/', include('open_api.urls', namespace="open_api")),
                   path('open_api/sqlr/', views_open.sqlr),

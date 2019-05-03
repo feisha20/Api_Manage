@@ -1,0 +1,151 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>测试管理平台 - 任务清单</title>
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h3>任务列表</h3>
+                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+                        <form role="form" action="../add_task" method="POST">
+                            <div class="input-group">
+                                    <input type="text" name="content" placeholder="添加新任务" class="input input-sm form-control" required>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-white" type="submit"><i class="fa fa-plus"></i>新增</button>
+                                    </span>
+                            </div>
+                        </form>
+                        <ul class="sortable-list connectList agile-list">
+                             {% for task0 in tasks0 %}
+                            <li class="info-element">
+                                {{ task0.content }}
+                                <div class="agile-detail">
+                                    <a href="/to_task1.html?nid={{ task0.id }}" class="pull-right btn btn-xs btn-white">→</a>
+                                    <a href="/to_task4.html?nid={{ task0.id }}" class="pull-right btn btn-xs btn-white" onclick="return confirmDel()">←</a>
+                                    <i class="fa fa-clock-o"></i>{{ task0.create_time }}
+                                </div>
+                            </li>
+                            {% endfor %}
+{#                            <li class="success-element">#}
+{#                                卓普信现金流程接口测试。#}
+{#                                <div class="agile-detail">#}
+{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
+{#                                    <i class="fa fa-clock-o"></i> 2019.05.12#}
+{#                                </div>#}
+{#                            </li>#}
+{#                            <li class="info-element">#}
+{#                                卓普信存货质押流程回归测试。#}
+{#                                <div class="agile-detail">#}
+{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
+{#                                    <i class="fa fa-clock-o"></i> 2019.05.10#}
+{#                                </div>#}
+{#                            </li>#}
+{#                            <li class="danger-element">#}
+{#                                写周报。#}
+{#                                <div class="agile-detail">#}
+{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
+{#                                    <i class="fa fa-clock-o"></i> 2019.05.10#}
+{#                                </div>#}
+{#                            </li>#}
+{#                            <li class="warning-element">#}
+{#                                整理测试规范#}
+{#                                <div class="agile-detail">#}
+{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
+{#                                    <i class="fa fa-clock-o"></i> 2019.05.10#}
+{#                                </div>#}
+{#                            </li>#}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h3>进行中</h3>
+                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+                        <ul class="sortable-list connectList agile-list">
+                            {% for task1 in tasks1 %}
+                            <li class="warning-element">
+                                {{ task1.content }}
+                                <div class="agile-detail">
+                                    <a href="/to_task2.html?nid={{ task1.id }}" class="pull-right btn btn-xs btn-white">→</a>
+                                    <a href="/to_task0.html?nid={{ task1.id }}" class="pull-right btn btn-xs btn-white">←</a>
+                                    <i class="fa fa-clock-o"></i> {{ task1.create_time }}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h3>已完成</h3>
+                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+                        <ul class="sortable-list connectList agile-list">
+                            {% for task2 in tasks2 %}
+                            <li class="success-element">
+                                {{ task2.content }}
+                                <div class="agile-detail">
+                                    <a href="/to_task3.html?nid={{ task2.id }}" class="pull-right btn btn-xs btn-white" onclick="return confirmDone()">→</a>
+                                    <a href="/to_task1.html?nid={{ task2.id }}" class="pull-right btn btn-xs btn-white">←</a>
+                                    <i class="fa fa-clock-o"></i> {{ task2.create_time }}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!-- 全局js -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.10.4.min.js' %}"></script>
+
+    <!-- 自定义js -->
+    <script src="{% static 'js/content.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".sortable-list").sortable({
+                connectWith: ".connectList"
+            }).disableSelection();
+
+        });
+    </script>
+
+    <script language="JavaScript">
+        function confirmDel(){
+        return confirm("是否确定作废此任务？");}
+        function confirmDone(){
+        return confirm("是否将任务移出完成列表，移出后只能到任务管理列表查看");}
+    </script>
+</body>
+
+</html>

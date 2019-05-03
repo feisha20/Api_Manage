@@ -76,9 +76,7 @@ def file_manage(request):
     return render(request, "file_manager.html")
 
 
-# 任务管理
-def task_manage(request):
-    return render(request, "task_manage.html")
+
 
 # 首页2
 def index2(request):
