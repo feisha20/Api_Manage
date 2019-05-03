@@ -13,6 +13,7 @@ import requests
 from postman_manage import models
 from django.shortcuts import render
 from postman_manage.models import Collections
+from postman_manage.models import Xkey
 from postman_manage.views import write_db
 from postman_manage.views import read_db
 
@@ -21,7 +22,7 @@ from postman_manage.views import read_db
 @login_required
 def collections_manage(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
-    collection_list = Collections.objects.all()  # 读取collection
+    collection_list = Collections.objects.all().filter(status=1)  # 读取collection
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
@@ -29,9 +30,6 @@ def collections_manage(request):
 def get_collections(request):
     select_xkey = 'select xkey from postman_manage_xkey'
     xkeys = read_db(select_xkey)
-    # print(xkeys)
-    # delete_collections = 'delete from postman_manage_collections'
-    # write_db(delete_collections)
     for a in range(len(xkeys)):
         xkey = xkeys[a]['xkey']
         url = "https://api.getpostman.com/collections"
@@ -46,14 +44,16 @@ def get_collections(request):
                 collection_name = collections[i]['name']
                 collection_owner = xkey_owner
                 collection_uid = xkey
-                values = (collection_id, collection_name, collection_owner, collection_uid)
-                inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid) values' + str(
+                status = 1
+                values = (collection_id, collection_name, collection_owner, collection_uid, status)
+                inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid, status) values' + str(
                     values) + "ON DUPLICATE KEY UPDATE  collection_id=collection_id"
                 write_db(inster_collections)
 
     username = request.session.get('user', '')  # 读取浏览器登录session
-    collection_list = Collections.objects.all()  # 读取collection
+    collection_list = Collections.objects.all().filter(status=1)  # 读取collection
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
+
 
 
 # 获取单个collection
@@ -69,7 +69,7 @@ def get_single_collection(request):
     with open(collection_file, 'w', encoding='utf-8') as json_file:
         json.dump(collection, json_file, ensure_ascii=False)
     username = request.session.get('user', '')  # 读取浏览器登录session
-    collection_list = Collections.objects.all()  # 读取collection
+    collection_list = Collections.objects.all().filter(status=1)  # 读取collection
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
 
 
@@ -95,7 +95,7 @@ def create_collection_json_file(filename, cid):
 def collection_search(request):
     username = request.session.get("user", '')
     search_collection = request.GET.get("collection_name", "")
-    collections_list = Collections.objects.filter(collection_name__contains=search_collection)
+    collections_list = Collections.objects.filter(collection_name__contains=search_collection).filter(status=1)
     return render(request, 'collections_manage.html', {"user": username, "collections": collections_list})
 
 
@@ -114,7 +114,7 @@ def eidt_collection(request):
             remark=remark,
             status=status
         )
-        collection_list = Collections.objects.all()  # 读取collection
+        collection_list = Collections.objects.all().filter(status=1)  # 读取collection
         return render(request, "collections_manage.html", {"collections": collection_list})
 
 
@@ -123,7 +123,7 @@ def eidt_collection(request):
 def del_collection(request):
     nid = request.GET.get('nid')
     models.Collections.objects.filter(id=nid).delete()
-    collection_list = Collections.objects.all()  # 读取xkey
+    collection_list = Collections.objects.all().filter(status=1)  # 读取xkey
     return render(request, "collections_manage.html", {"collections": collection_list})
 
 
@@ -133,7 +133,7 @@ def get_collection_detail(request):
     nid = request.GET.get('nid')
     uid = request.GET.get('uid')
     obj = models.Collections.objects.filter(id=nid).first()
-    obj2 = models.Envs.objects.filter(env_uid=uid).all()
+    obj2 = models.Envs.objects.filter(env_uid=uid).all().exclude(env_path='')
     return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2})
 
 
@@ -151,14 +151,14 @@ def run_collection(request):
     report_template_path = os.path.dirname(__file__) + "/collections/templates/"
     report_template = "--ignore-redirects --reporters cli,html --reporter-html-template" + report_template_path + "template-default-colored.hbs"
     if env_file != "":
-        run_sh = "newman run " + collections_path + col_file + " -e " + collections_path + str(env_file) + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
+        run_sh = "newman run " + collections_path + col_file + " -g " + collections_path + "globals.json" + " -e " + collections_path + str(env_file) + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
     else:
         run_sh = "newman run " + collections_path + col_file + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
     print(run_sh)
     p = subprocess.Popen(run_sh, shell=True)
     pid = p.pid
     models.Collections.objects.filter(id=cid).update(run_pid=pid)
-    collection_list = Collections.objects.all()
+    collection_list = Collections.objects.all().filter(status=1)
     f = p.wait()
     if f == 0:
         models.Collections.objects.filter(id=cid).update(run_status=1)
@@ -172,12 +172,12 @@ def run_collection(request):
 def stop_collection(request):
     nid = request.GET.get('nid')
     obj = models.Collections.objects.filter(id=nid).first()
-    collection_list = Collections.objects.all()
+    collection_list = Collections.objects.all().filter(status=1)
     pid = obj.run_pid
     children_id = psutil.Process(int(pid)).children()
     children_id = str(children_id).split()[0].split('=')[-1].split(',')[0]
     print("-----------杀死newman进程--------------")
-    shell = "taskkill /f /pid " + str(children_id)
+    shell = "kill -9  " + str(children_id)
     print(shell)
     subprocess.Popen(shell)
     return render(request, 'collections_manage.html', {"collections": collection_list})

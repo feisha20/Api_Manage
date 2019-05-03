@@ -69,7 +69,7 @@ def get_single_env(request):
 
 # 创建json文件
 def create_env_json_file(filename, cid):
-    path = "F:\\Api_manage\\collections\\"
+    path = os.path.dirname(__file__) + "/collections/"
     suffix = ".json"
     file = "env-" + filename + suffix
     newfile = path + file
