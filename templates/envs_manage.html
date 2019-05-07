@@ -51,6 +51,7 @@
                             <thead>
                             <tr>
                                 <th>envId</th>
+                                <th class="hidden">env_uid</th>
                                 <th>envName</th>
                                 <th>envOwner</th>
                                 <th>envPath</th>
@@ -62,6 +63,7 @@
                             {% for env in envs %}
                                 <tr>
                                     <td>{{ env.env_id }}</td>
+                                    <td class="hidden">{{ env.env_uid }}</td>
                                     <td>{{ env.env_name }}</td>
                                     <td>{{ env.env_owner}}</td>
                                     <td>{{ env.env_path }}</td>

@@ -9,6 +9,7 @@ import requests
 from django.shortcuts import render
 from postman_manage.views import write_db
 from postman_manage.views import read_db
+from postman_manage import models
 
 
 # envs管理
@@ -73,14 +74,9 @@ def create_env_json_file(filename, cid):
     suffix = ".json"
     file = "env-" + filename + suffix
     newfile = path + file
-    cid = str(cid)
-    print(newfile)
     f = open(newfile, 'w')
     f.close()
-    sql = "update postman_manage_envs set env_path =" + "\"" + str(
-        file) + "\" where env_id =" + "\"" + cid + "\""
-    print(sql)
-    write_db(sql)
+    models.Envs.objects.filter(env_id=cid).update(env_path=file)
     return newfile
 
 # env列表搜索
