@@ -8,14 +8,10 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'test_manage.settings'
 django.setup()
 import json
 from django.contrib.auth.decorators import login_required
-from postman_manage.models import Collections
 import requests
 from postman_manage import models
 from django.shortcuts import render
 from postman_manage.models import Collections
-from postman_manage.models import Xkey
-from postman_manage.views import write_db
-from postman_manage.views import read_db
 
 
 # collections管理
@@ -28,32 +24,29 @@ def collections_manage(request):
 
 # 根据xkey获取所有的collections
 def get_collections(request):
-    select_xkey = 'select xkey from postman_manage_xkey'
-    xkeys = read_db(select_xkey)
+    xkeys = models.Xkey.objects.values_list("xkey", flat=True)
     for a in range(len(xkeys)):
-        xkey = xkeys[a]['xkey']
+        xkey = xkeys[a]
         url = "https://api.getpostman.com/collections"
         headers = {"X-Api-Key": xkey}
-        # headers = {"X-Api-Key": "a0b4bb86e8f246fdb49212b75e2a8da1"}
-        xkey_owner = read_db("select xkey_owner from postman_manage_xkey where xkey =xkey")[0]["xkey_owner"]
+        xkey_owner = models.Xkey.objects.values_list("xkey_owner", flat=True)[a]
         res = requests.get(url, headers=headers)
         if res.status_code == 200:
             collections = res.json()['collections']
             for i in range(len(collections)):
-                collection_id = collections[i]['id']
-                collection_name = collections[i]['name']
-                collection_owner = xkey_owner
-                collection_uid = xkey
-                status = 1
-                values = (collection_id, collection_name, collection_owner, collection_uid, status)
-                inster_collections = 'INSERT INTO postman_manage_collections(collection_id,collection_name,collection_owner,collection_uid, status) values' + str(
-                    values) + "ON DUPLICATE KEY UPDATE  collection_id=collection_id"
-                write_db(inster_collections)
+                collection_ids = models.Collections.objects.values_list("collection_id", flat=True)
+                if collections[i]['id'] not in collection_ids:
+                    models.Envs.objects.create(
+                        collection_id=collections[i]['id'],
+                        collection_name=collections[i]['name'],
+                        collection_owner=xkey_owner,
+                        collection_uid=xkey,
+                        status=1,
 
+                    )
     username = request.session.get('user', '')  # 读取浏览器登录session
     collection_list = Collections.objects.all().filter(status=1)  # 读取collection
     return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
-
 
 
 # 获取单个collection
@@ -79,14 +72,8 @@ def create_collection_json_file(filename, cid):
     suffix = ".json"
     file = "col-" + filename + suffix
     newfile = path + file
-    cid = str(cid)
-    print(newfile)
     f = open(newfile, 'w')
-    f.close()
-    sql = "update postman_manage_collections set collection_path =" + "\"" + str(
-        file) + "\" where collection_id =" + "\"" + cid + "\""
-    print(sql)
-    write_db(sql)
+    models.Collections.objects.filter(collection_id=cid).update(collection_path=file)
     return newfile
 
 
@@ -146,12 +133,13 @@ def run_collection(request):
     col_file_name = request.POST.get('collection_name')
     report_file = col_file_name + ".html"
     # f = subprocess.call('cd ../collections & newman run col-demo2.json -r html --reporter-html-export', shell=True)
-    collections_path =os.path.dirname(__file__) + "/collections/"
+    collections_path = os.path.dirname(__file__) + "/collections/"
     report_path = os.path.dirname(__file__) + "/report/"
     report_template_path = os.path.dirname(__file__) + "/collections/templates/"
     report_template = "--ignore-redirects --reporters cli,html --reporter-html-template" + report_template_path + "template-default-colored.hbs"
     if env_file != "":
-        run_sh = "newman run " + collections_path + col_file + " -g " + collections_path + "globals.json" + " -e " + collections_path + str(env_file) + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
+        run_sh = "newman run " + collections_path + col_file + " -g " + collections_path + "globals.json" + " -e " + collections_path + str(
+            env_file) + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
     else:
         run_sh = "newman run " + collections_path + col_file + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
     print(run_sh)
@@ -181,5 +169,3 @@ def stop_collection(request):
     print(shell)
     subprocess.Popen(shell)
     return render(request, 'collections_manage.html', {"collections": collection_list})
-
-
