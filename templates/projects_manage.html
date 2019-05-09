@@ -29,7 +29,7 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/projectsearch/">
+                            <form method="get" action="/project/projectsearch/">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="search" name="name" placeholder="请输入产品名称"
@@ -42,7 +42,7 @@
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
-                                   href="/add_project.html">新增</a>
+                                   href="/project/add_project.html">新增</a>
                             </div>
                         </div>
                     </div>
@@ -62,8 +62,8 @@
                                     <td>{{ project.name }}</td>
                                     <td>{{ project.remark}}</td>
                                     <td>{{ project.create_time}}</td>
-                                    <td><a href="/edit_project.html?nid={{ project.id }}">编辑</a>&nbsp;&nbsp;<a
-                                            href="/del_project.html?nid={{ project.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
+                                    <td><a href="/project/edit_project.html?nid={{ project.id }}">编辑</a>&nbsp;&nbsp;<a
+                                            href="/project/del_project.html?nid={{ project.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
