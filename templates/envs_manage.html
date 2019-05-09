@@ -29,7 +29,7 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/env_search/">
+                            <form method="get" action="/postman_manage/env_search/">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="search" name="env_name" placeholder="请输入env名称"
@@ -42,7 +42,7 @@
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
-                                   href="/get_envs/">同步envs</a>
+                                   href="/postman_manage/get_envs/">同步envs</a>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                                     <td>{{ env.env_owner}}</td>
                                     <td>{{ env.env_path }}</td>
                                     <td>{{ env.create_time}}</td>
-                                    <td><a  href="/get_single_env.html?cid={{ env.env_id }}&xkey={{env.env_uid }}">同步</a>
+                                    <td><a  href="/postman_manage/get_single_env.html?cid={{ env.env_id }}&xkey={{env.env_uid }}">同步</a>
                                         &nbsp;&nbsp;<a>编辑</a>
                                         &nbsp;&nbsp;<a>删除</a>
                                 </tr>

@@ -29,7 +29,7 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/xkeysearch/">
+                            <form method="get" action="/postman_manage/xkeysearch/">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="search" name="xkey_owner" placeholder="请输入xkey所有者"
@@ -42,7 +42,7 @@
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
-                                   href="/add_xkey.html">新增</a>
+                                   href="/postman_manage/add_xkey.html">新增</a>
                             </div>
                         </div>
                     </div>
@@ -67,8 +67,8 @@
                                     <td>{{ xkey.xkey_owner}}</td>
                                     <td>{{ xkey.remark }}</td>
                                     <td>{{ xkey.create_time}}</td>
-                                    <td><a href="/edit_xkey.html?nid={{ xkey.id }}">编辑</a>&nbsp;&nbsp;<a
-                                            href="/del_xkey.html?nid={{ xkey.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
+                                    <td><a href="/postman_manage/edit_xkey.html?nid={{ xkey.id }}">编辑</a>&nbsp;&nbsp;<a
+                                            href="/postman_manage/del_xkey.html?nid={{ xkey.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -114,7 +114,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-sm-11">
-                                            <form role="form" action="/update_xkey/" method="POST">
+                                            <form role="form" action="/postman_manage/update_xkey/" method="POST">
                                                 {% csrf_token %}
                                                 <div class="form-group">
                                                     <label>Xkey3：</label>

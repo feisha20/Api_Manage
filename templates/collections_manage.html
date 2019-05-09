@@ -29,7 +29,7 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/collection_search/">
+                            <form method="get" action="/postman_manage/collection_search/">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="search" name="collection_name" placeholder="请输入collection名称"
@@ -42,7 +42,7 @@
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
-                                   href="/get_collections/">同步collections</a>
+                                   href="/postman_manage/get_collections/">同步collections</a>
                             </div>
                         </div>
                     </div>
@@ -89,11 +89,11 @@
                                     </td>
                                     <td>{{ collection.remark }}</td>
                                     <td>{{ collection.create_time}}</td>
-                                    <td><a  href="/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
-                                        <a href="/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}">运行</a>
-                                        &nbsp;&nbsp;<a href="/edit_collection.html?nid={{ collection.id }}" >编辑</a>
-                                        &nbsp;&nbsp;<a href="/del_collection.html?nid={{ collection.id }}" style="color: grey" onclick="return confirmDel()">删除</a>
-{#                                        <a  href="/stop_collection.html?nid={{ collection.id }}">停止</a>#}
+                                    <td><a  href="/postman_manage/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
+                                        <a href="/postman_manage/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}">运行</a>
+                                        &nbsp;&nbsp;<a href="/postman_manage/edit_collection.html?nid={{ collection.id }}" >编辑</a>
+                                        &nbsp;&nbsp;<a href="/postman_manage/del_collection.html?nid={{ collection.id }}" style="color: grey" onclick="return confirmDel()">删除</a>
+{#                                        <a  href="/postman_manage/stop_collection.html?nid={{ collection.id }}">停止</a>#}
                                 </tr>
                             {% endfor %}
                             </tbody>

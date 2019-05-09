@@ -36,7 +36,7 @@ def get_collections(request):
             for i in range(len(collections)):
                 collection_ids = models.Collections.objects.values_list("collection_id", flat=True)
                 if collections[i]['id'] not in collection_ids:
-                    models.Envs.objects.create(
+                    models.Collections.objects.create(
                         collection_id=collections[i]['id'],
                         collection_name=collections[i]['name'],
                         collection_owner=xkey_owner,
