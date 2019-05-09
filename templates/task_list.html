@@ -26,7 +26,7 @@
                     <div class="ibox-content">
                         <h3>任务列表</h3>
                         <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
-                        <form role="form" action="../add_task" method="POST">
+                        <form role="form" action="/task/add_task" method="POST">
                             <div class="input-group">
                                     <input type="text" name="content" placeholder="添加新任务" class="input input-sm form-control" required>
                                     <span class="input-group-btn">
@@ -39,40 +39,12 @@
                             <li class="info-element">
                                 {{ task0.content }}
                                 <div class="agile-detail">
-                                    <a href="/to_task1.html?nid={{ task0.id }}" class="pull-right btn btn-xs btn-white">→</a>
-                                    <a href="/to_task4.html?nid={{ task0.id }}" class="pull-right btn btn-xs btn-white" onclick="return confirmDel()">←</a>
+                                    <a href="/task/to_task1.html?nid={{ task0.id }}" class="pull-right btn btn-xs btn-white">→</a>
+                                    <a href="/task/to_task4.html?nid={{ task0.id }}" class="pull-right btn btn-xs btn-white" onclick="return confirmDel()">←</a>
                                     <i class="fa fa-clock-o"></i>{{ task0.create_time }}
                                 </div>
                             </li>
                             {% endfor %}
-{#                            <li class="success-element">#}
-{#                                卓普信现金流程接口测试。#}
-{#                                <div class="agile-detail">#}
-{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
-{#                                    <i class="fa fa-clock-o"></i> 2019.05.12#}
-{#                                </div>#}
-{#                            </li>#}
-{#                            <li class="info-element">#}
-{#                                卓普信存货质押流程回归测试。#}
-{#                                <div class="agile-detail">#}
-{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
-{#                                    <i class="fa fa-clock-o"></i> 2019.05.10#}
-{#                                </div>#}
-{#                            </li>#}
-{#                            <li class="danger-element">#}
-{#                                写周报。#}
-{#                                <div class="agile-detail">#}
-{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
-{#                                    <i class="fa fa-clock-o"></i> 2019.05.10#}
-{#                                </div>#}
-{#                            </li>#}
-{#                            <li class="warning-element">#}
-{#                                整理测试规范#}
-{#                                <div class="agile-detail">#}
-{#                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>#}
-{#                                    <i class="fa fa-clock-o"></i> 2019.05.10#}
-{#                                </div>#}
-{#                            </li>#}
                         </ul>
                     </div>
                 </div>
@@ -87,8 +59,8 @@
                             <li class="warning-element">
                                 {{ task1.content }}
                                 <div class="agile-detail">
-                                    <a href="/to_task2.html?nid={{ task1.id }}" class="pull-right btn btn-xs btn-white">→</a>
-                                    <a href="/to_task0.html?nid={{ task1.id }}" class="pull-right btn btn-xs btn-white">←</a>
+                                    <a href="/task/to_task2.html?nid={{ task1.id }}" class="pull-right btn btn-xs btn-white">→</a>
+                                    <a href="/task/to_task0.html?nid={{ task1.id }}" class="pull-right btn btn-xs btn-white">←</a>
                                     <i class="fa fa-clock-o"></i> {{ task1.create_time }}
                                 </div>
                             </li>
@@ -107,8 +79,8 @@
                             <li class="success-element">
                                 {{ task2.content }}
                                 <div class="agile-detail">
-                                    <a href="/to_task3.html?nid={{ task2.id }}" class="pull-right btn btn-xs btn-white" onclick="return confirmDone()">→</a>
-                                    <a href="/to_task1.html?nid={{ task2.id }}" class="pull-right btn btn-xs btn-white">←</a>
+                                    <a href="/task/to_task3.html?nid={{ task2.id }}" class="pull-right btn btn-xs btn-white" onclick="return confirmDone()">→</a>
+                                    <a href="/task/to_task1.html?nid={{ task2.id }}" class="pull-right btn btn-xs btn-white">←</a>
                                     <i class="fa fa-clock-o"></i> {{ task2.create_time }}
                                 </div>
                             </li>
