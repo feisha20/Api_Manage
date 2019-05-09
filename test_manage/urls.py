@@ -22,8 +22,6 @@ from postman_manage import views_env
 from django.views.static import serve
 from django.conf import settings
 from django.conf.urls import url, include
-from sys_settings import views_dbs
-from open_api import views_open
 from django.conf.urls.static import static
 import postman_manage.views as view
 
@@ -53,16 +51,12 @@ urlpatterns = [
                   path('run_collection.html', views_coll.get_collection_detail),
                   path('run_collection/', views_coll.run_collection),
                   path('stop_collection.html/', views_coll.stop_collection),
-                  url('^report/(?P<path>.*)$', serve, {'document_root': settings.REPORT_ROOT}),
-                  path('dbs_manage/', views_dbs.get_dbs),
-                  url(r'^project/', include('project_manage.urls', namespace="project_manage")),
-                  path('add_db.html', views_dbs.add_db),
-                  path('edit_db.html', views_dbs.eidt_db),
-                  path('del_db.html', views_dbs.del_db),
-                  path('dbsearch/', views_dbs.db_search),
-                  path('file_manage/', views.file_manage),
-                  url(r'^task/', include('task_manage.urls', namespace="task_manage")),
                   path('index2/', views.index2),
+                  path('file_manage/', views.file_manage),
+                  url('^report/(?P<path>.*)$', serve, {'document_root': settings.REPORT_ROOT}),
+                  url(r'^project/', include('project_manage.urls', namespace="project_manage")),
+                  url(r'^task/', include('task_manage.urls', namespace="task_manage")),
+                  url(r'^sys_settings/', include('sys_settings.urls', namespace="sys_settings")),
                   url(r'^open_api/', include('open_api.urls', namespace="open_api")),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

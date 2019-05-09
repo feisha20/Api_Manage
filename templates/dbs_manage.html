@@ -29,7 +29,7 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/dbsearch/">
+                            <form method="get" action="/sys_settings/dbsearch/">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="search" name="name" placeholder="请输入数据库名称"
@@ -42,7 +42,7 @@
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
-                                   href="/add_db.html">新增</a>
+                                   href="/sys_settings/add_db.html">新增</a>
                             </div>
                         </div>
                     </div>
@@ -70,8 +70,8 @@
                                     <td>******</td>
                                     <td>{{ db.db }}</td>
                                     <td>{{ db.create_time}}</td>
-                                    <td><a href="/edit_db.html?nid={{ db.id }}">编辑</a>&nbsp;&nbsp;<a
-                                            href="/del_db.html?nid={{ db.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
+                                    <td><a href="/sys_settings/edit_db.html?nid={{ db.id }}">编辑</a>&nbsp;&nbsp;<a
+                                            href="/sys_settings/del_db.html?nid={{ db.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
