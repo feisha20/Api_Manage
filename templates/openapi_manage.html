@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>测试管理平台 -数据库管理</title>
+    <title>测试管理平台 -OpenApi管理</title>
 
     <link rel="shortcut icon">
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -26,57 +26,40 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <form method="get" action="/sys_settings/dbsearch/">
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    <input type="search" name="name" placeholder="请输入数据库名称"
-                                           class="input-sm form-control">
-                                    <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>
-                                        </span>
-
-                                </div>
-                            </form>
-                            <div class="text-left">
-                                <a data-toggle="modal" class="btn btn-primary"
-                                   href="/sys_settings/add_db.html">新增</a>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                             <tr>
 
-                                <th>数据库名称</th>
-                                <th>host</th>
-                                <th>port</th>
-                                <th>user</th>
-                                <th>password</th>
-                                <th>db</th>
-                                <th>创建时间</th>
+                                <th>接口名称</th>
+                                <th>接口地址</th>
+                                <th>接口说明</th>
+                                <th>帮助</th>
+
                             </tr>
                             </thead>
                             <tbody>
-                            {% for db in dbs %}
                                 <tr>
-                                    <td>{{ db.name }}</td>
-                                    <td>{{ db.host }}</td>
-                                    <td>{{ db.port}}</td>
-                                    <td>{{ db.user }}</td>
-                                    <td>******</td>
-                                    <td>{{ db.db }}</td>
-                                    <td>{{ db.create_time}}</td>
-                                    <td><a href="/sys_settings/edit_db.html?nid={{ db.id }}">编辑</a>&nbsp;&nbsp;<a
-                                            href="/sys_settings/del_db.html?nid={{ db.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
+                                    <td>查询数据库接口</td>
+                                    <td>http://aatp.topideal.work/open_api/sqlr</td>
+                                    <td>可以通过接口进行数据库<font color="green">查询</font>操作</td>
+                                    <td>查看下图说明</td>
                                 </tr>
-                            {% endfor %}
+                                <tr>
+                                    <td>写数据库接口</td>
+                                    <td>http://aatp.topideal.work/open_api/sqlw</td>
+                                    <td>可以通过接口进行数据库<font color="green">增删改</font>操作<font color="red">（谨慎操作）</font></td>
+                                    <td>查看下图说明</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
+                    <div>
+                        <h3 style="text-align: left">OpenApi使用说明：</h3>
+                    </div>
+                     <div class="ibox-content no-padding border-left-right">
+                            <img alt="image" class="img-responsive" src="/static/img/openapi.png">
+                     </div>
                 </div>
             </div>
         </div>

@@ -1,10 +1,12 @@
 from django.conf.urls import url
-from open_api import views_open
+from django.urls import path
+from open_api import views
 
 app_name = 'open_api'
 urlpatterns = [
     # test_api interface:
     # ex: /oepn_api/sql/
-    url(r'sqlr', views_open.sqlr, name='sql'),
-    url(r'sqlw', views_open.sqlw, name='sql'),
+    url(r'sqlr', views.sqlr, name='sqlr'),
+    url(r'sqlw', views.sqlw, name='sqlw'),
+    path('openapi_manage.html/', views.openapi_list),
 ]
