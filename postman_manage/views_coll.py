@@ -19,17 +19,17 @@ from postman_manage.models import Collections
 def collections_manage(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
     collection_list = Collections.objects.all().filter(status=1)  # 读取collection
-    return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "collections_manage.html", {"user": username, "collections": collection_list, "xkeys": xkey_list})
 
 
 # 根据xkey获取所有的collections
 def get_collections(request):
-    xkeys = models.Xkey.objects.values_list("xkey", flat=True)
-    for a in range(len(xkeys)):
-        xkey = xkeys[a]
+    if request.method == 'POST':
+        xkey = request.POST.get('xkey')
+        xkey_owner = models.Xkey.objects.filter(xkey=xkey).values_list("xkey_owner", flat=True)[0]
         url = "https://api.getpostman.com/collections"
         headers = {"X-Api-Key": xkey}
-        xkey_owner = models.Xkey.objects.values_list("xkey_owner", flat=True)[a]
         res = requests.get(url, headers=headers)
         if res.status_code == 200:
             collections = res.json()['collections']
@@ -46,7 +46,8 @@ def get_collections(request):
                     )
     username = request.session.get('user', '')  # 读取浏览器登录session
     collection_list = Collections.objects.all().filter(status=1)  # 读取collection
-    return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "collections_manage.html", {"user": username, "collections": collection_list, "xkeys": xkey_list})
 
 
 # 获取单个collection
@@ -63,7 +64,8 @@ def get_single_collection(request):
         json.dump(collection, json_file, ensure_ascii=False)
     username = request.session.get('user', '')  # 读取浏览器登录session
     collection_list = Collections.objects.all().filter(status=1)  # 读取collection
-    return render(request, "collections_manage.html", {"user": username, "collections": collection_list})
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "collections_manage.html", {"user": username, "collections": collection_list, "xkeys": xkey_list})
 
 
 # 创建json文件
@@ -83,7 +85,9 @@ def collection_search(request):
     username = request.session.get("user", '')
     search_collection = request.GET.get("collection_name", "")
     collections_list = Collections.objects.filter(collection_name__contains=search_collection).filter(status=1)
-    return render(request, 'collections_manage.html', {"user": username, "collections": collections_list})
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "collections_manage.html",
+                  {"user": username, "collections": collections_list, "xkeys": xkey_list})
 
 
 # 修改collection
@@ -102,7 +106,8 @@ def eidt_collection(request):
             status=status
         )
         collection_list = Collections.objects.all().filter(status=1)  # 读取collection
-        return render(request, "collections_manage.html", {"collections": collection_list})
+        xkey_list = models.Xkey.objects.all()
+        return render(request, "collections_manage.html", {"collections": collection_list, "xkeys": xkey_list})
 
 
 # 删除collection
@@ -110,8 +115,9 @@ def eidt_collection(request):
 def del_collection(request):
     nid = request.GET.get('nid')
     models.Collections.objects.filter(id=nid).delete()
-    collection_list = Collections.objects.all().filter(status=1)  # 读取xkey
-    return render(request, "collections_manage.html", {"collections": collection_list})
+    collection_list = Collections.objects.all().filter(status=1)  # 读取collection
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "collections_manage.html", {"collections": collection_list, "xkeys": xkey_list})
 
 
 # Runcollection
@@ -147,13 +153,14 @@ def run_collection(request):
     pid = p.pid
     models.Collections.objects.filter(id=cid).update(run_pid=pid)
     collection_list = Collections.objects.all().filter(status=1)
+    xkey_list = models.Xkey.objects.all()
     f = p.wait()
     if f == 0:
         models.Collections.objects.filter(id=cid).update(run_status=1)
-        return render(request, 'collections_manage.html', {"collections": collection_list})
+        return render(request, "collections_manage.html", {"collections": collection_list, "xkeys": xkey_list})
     else:
         models.Collections.objects.filter(id=cid).update(run_status=0)
-        return render(request, 'collections_manage.html', {"collections": collection_list})
+        return render(request, "collections_manage.html", {"collections": collection_list, "xkeys": xkey_list})
 
 
 @login_required
@@ -168,4 +175,4 @@ def stop_collection(request):
     shell = "kill -9  " + str(children_id)
     print(shell)
     subprocess.Popen(shell)
-    return render(request, 'collections_manage.html', {"collections": collection_list})
+    return render(request, 'collections_manage.html', {"collections": collection_list, "xkeys": xkey_list})

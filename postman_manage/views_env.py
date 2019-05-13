@@ -16,17 +16,17 @@ from postman_manage import models
 def envs_manage(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
     env_list = Envs.objects.all()  # 读取env
-    return render(request, "envs_manage.html", {"user": username, "envs": env_list})
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})
 
 
 # 根据xkey获取所有的envs
 def get_envs(request):
-    xkeys = models.Xkey.objects.values_list("xkey", flat=True)
-    for a in range(len(xkeys)):
-        xkey = xkeys[a]
+    if request.method == 'POST':
+        xkey = request.POST.get('xkey')
+        xkey_owner = models.Xkey.objects.filter(xkey=xkey).values_list("xkey_owner", flat=True)[0]
         url = "https://api.getpostman.com/environments"
         headers = {"X-Api-Key": xkey}
-        xkey_owner = models.Xkey.objects.values_list("xkey_owner", flat=True)[a]
         res = requests.get(url, headers=headers)
         if res.status_code == 200:
             envs = res.json()['environments']
@@ -42,7 +42,8 @@ def get_envs(request):
                     )
     username = request.session.get('user', '')  # 读取浏览器登录session
     env_list = Envs.objects.all()  # 读取env
-    return render(request, "envs_manage.html", {"user": username, "envs": env_list})
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})
 
 
 # 获取单个env
@@ -58,7 +59,8 @@ def get_single_env(request):
         json.dump(env, json_file, ensure_ascii=False)
     username = request.session.get('user', '')  # 读取浏览器登录session
     env_list = Envs.objects.all()  # 读取env
-    return render(request, "envs_manage.html", {"user": username, "envs": env_list})
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})
 
 
 # 创建json文件
@@ -78,5 +80,6 @@ def create_env_json_file(filename, cid):
 def env_search(request):
     username = request.session.get("user", '')
     search_env = request.GET.get("env_name", "")
-    envs_list = Envs.objects.filter(env_name__contains=search_env)
-    return render(request, 'envs_manage.html', {"user": username, "envs": envs_list})
+    env_list = Envs.objects.filter(env_name__contains=search_env)
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})

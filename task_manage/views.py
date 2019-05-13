@@ -36,7 +36,7 @@ def task_list(request):
     task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
     task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
     task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
-    return render(request, "task_list.html", {"user": username, "tasks0": task_list0,"tasks1": task_list1,"tasks2": task_list2})
+    return render(request, "task_list.html", {"user": username, "tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 
 
 # 修改task to 进行中

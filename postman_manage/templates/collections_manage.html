@@ -16,6 +16,7 @@
     <link href="{% static 'css/plugins/iCheck/custom.css' %}" rel="stylesheet">
     <link href="{% static 'css/animate.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
     <link href="{% static 'css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
 
@@ -40,9 +41,18 @@
 
                                 </div>
                             </form>
-                            <div class="text-left">
-                                <a data-toggle="modal" class="btn btn-primary"
-                                   href="/postman_manage/get_collections/">同步collections</a>
+                            <div class="form-group">
+                                <form role="form" action="/postman_manage/get_collections/" method="POST">
+                                    <select style="height:30px; width: 150px" class="chosen-select" name="xkey" required="">
+                                        <option value="">请选择同步谁的......</option>
+                                        {% for xkey in xkeys %}
+                                          <option value="{{ xkey.xkey }}">{{ xkey.xkey_owner }}</option>
+                                        {% endfor %}
+                                    </select>
+                                     <button class="btn btn-sm btn-primary"
+                                        type="submit"><strong>同步</strong>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -101,7 +111,6 @@
                     </div>
 
                 </div>
-            </div>
         </div>
 
     </div>
@@ -122,11 +131,15 @@
 <script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
 <script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
 
+<!-- Bootstrap table -->
+<script src="{% static 'js/plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
+<script src="{% static 'js/plugins/bootstrap-table/bootstrap-table-mobile.min.js' %}"></script>
+<script src="{% static 'js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js' %}"></script>
+
+
 <!-- iCheck -->
 <script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
 
-<!-- Peity -->
-<script src="{% static 'js/demo/peity-demo.js' %}"></script>
 
 <script>
     $(document).ready(function () {
