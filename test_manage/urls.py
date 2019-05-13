@@ -15,12 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from postman_manage import views
+from . import views
 from django.views.static import serve
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
-import postman_manage.views as view
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -38,6 +37,3 @@ urlpatterns = [
                   url(r'^sys_settings/', include('sys_settings.urls', namespace="sys_settings")),
                   url(r'^open_api/', include('open_api.urls', namespace="open_api")),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-handler404 = view.page_not_found
-handler500 = view.page_error
