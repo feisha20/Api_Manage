@@ -15,7 +15,7 @@ from postman_manage import models
 @login_required
 def envs_manage(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
-    env_list = Envs.objects.all()  # 读取env
+    env_list = Envs.objects.all().filter(status=1)   # 读取env
     xkey_list = models.Xkey.objects.all()
     return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})
 
@@ -38,10 +38,11 @@ def get_envs(request):
                         env_name=envs[i]['name'],
                         env_owner=xkey_owner,
                         env_uid=xkey,
+                        status=1,
 
                     )
     username = request.session.get('user', '')  # 读取浏览器登录session
-    env_list = Envs.objects.all()  # 读取env
+    env_list = Envs.objects.all().filter(status=1)   # 读取env
     xkey_list = models.Xkey.objects.all()
     return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})
 
@@ -58,7 +59,7 @@ def get_single_env(request):
     with open(env_file, 'w', encoding='utf-8') as json_file:
         json.dump(env, json_file, ensure_ascii=False)
     username = request.session.get('user', '')  # 读取浏览器登录session
-    env_list = Envs.objects.all()  # 读取env
+    env_list = Envs.objects.all().filter(status=1)   # 读取env
     xkey_list = models.Xkey.objects.all()
     return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})
 
@@ -80,6 +81,34 @@ def create_env_json_file(filename, cid):
 def env_search(request):
     username = request.session.get("user", '')
     search_env = request.GET.get("env_name", "")
-    env_list = Envs.objects.filter(env_name__contains=search_env)
+    env_list = Envs.objects.filter(env_name__contains=search_env).filter(status=1)
     xkey_list = models.Xkey.objects.all()
     return render(request, "envs_manage.html", {"user": username, "envs": env_list, "xkeys": xkey_list})
+
+
+# 删除env
+@login_required
+def del_env(request):
+    nid = request.GET.get('nid')
+    models.Envs.objects.filter(id=nid).delete()
+    env_list = Envs.objects.all().filter(status=1)
+    xkey_list = models.Xkey.objects.all()
+    return render(request, "envs_manage.html", {"envs": env_list, "xkeys": xkey_list})
+
+
+# 修改env
+@login_required
+def eidt_env(request):
+    if request.method == 'GET':
+        nid = request.GET.get('nid')
+        obj = models.Envs.objects.filter(id=nid).first()
+        return render(request, 'edit_env.html', {'obj': obj})
+    elif request.method == 'POST':
+        nid = request.GET.get('nid')
+        status = request.POST.get('status')
+        models.Envs.objects.filter(id=nid).update(
+            status=status
+        )
+        env_list = Envs.objects.all().filter(status=1)  # 读取envs
+        xkey_list = models.Xkey.objects.all()
+        return render(request, "envs_manage.html", {"envs": env_list, "xkeys": xkey_list})

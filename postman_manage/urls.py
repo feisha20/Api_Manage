@@ -18,6 +18,8 @@ urlpatterns = [
     path('get_envs/', views_env.get_envs),
     path('get_singel_env.html/', views_env.get_single_env),
     path('env_search/', views_env.env_search),
+    path('del_env.html', views_env.del_env),
+    path('edit_env.html', views_env.eidt_env),
     path('get_single_env.html', views_env.get_single_env),
     path('edit_collection.html', views_coll.eidt_collection),
     path('del_collection.html', views_coll.del_collection),

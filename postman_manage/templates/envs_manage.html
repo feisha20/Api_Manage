@@ -63,6 +63,7 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
+                                <th class="hidden">Id</th>
                                 <th>envId</th>
                                 <th class="hidden">env_uid</th>
                                 <th>envName</th>
@@ -75,6 +76,7 @@
                             <tbody>
                             {% for env in envs %}
                                 <tr>
+                                    <td class="hidden">{{ env.id }}</td>
                                     <td>{{ env.env_id }}</td>
                                     <td class="hidden">{{ env.env_uid }}</td>
                                     <td>{{ env.env_name }}</td>
@@ -82,8 +84,8 @@
                                     <td>{{ env.env_path }}</td>
                                     <td>{{ env.create_time}}</td>
                                     <td><a  href="/postman_manage/get_single_env.html?cid={{ env.env_id }}&xkey={{env.env_uid }}">同步</a>
-                                        &nbsp;&nbsp;<a>编辑</a>
-                                        &nbsp;&nbsp;<a>删除</a>
+                                        &nbsp;&nbsp;<a href="/postman_manage/edit_env.html?nid={{ env.id }}" >编辑</a>
+                                        &nbsp;&nbsp;<a href="/postman_manage/del_env.html?nid={{ env.id }}" style="color: grey" onclick="return confirmDel()">删除</a>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -127,6 +129,12 @@
             styleActiveLine: true
         });
     });
+</script>
+
+<script language="JavaScript">
+function confirmDel(){
+return confirm("是否确定删除？");
+}
 </script>
 
 
