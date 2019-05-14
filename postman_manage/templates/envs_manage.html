@@ -51,12 +51,10 @@
                                      <button class="btn btn-sm btn-primary"
                                         type="submit"><strong>同步</strong>
                                     </button>
+                                 <a data-toggle="modal" class="btn btn-sm btn-primary"
+                                href="/postman_manage/add_env.html">手动新增</a>
                                 </form>
                             </div>
-{#                            <div class="text-left">#}
-{#                                <a data-toggle="modal" class="btn btn-primary"#}
-{#                                   href="/postman_manage/get_envs/">同步envs</a>#}
-{#                            </div>#}
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -67,7 +65,8 @@
                                 <th>envId</th>
                                 <th class="hidden">env_uid</th>
                                 <th>envName</th>
-                                <th>envOwner</th>
+                                <th>type</th>
+                                <th>Owner</th>
                                 <th>envPath</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
@@ -80,6 +79,12 @@
                                     <td>{{ env.env_id }}</td>
                                     <td class="hidden">{{ env.env_uid }}</td>
                                     <td>{{ env.env_name }}</td>
+                                    <td>{% if env.type == 0 %}
+                                        局部变量
+                                        {% elif env.type == 1 %}
+                                        全局变量
+                                        {% endif %}
+                                    </td>
                                     <td>{{ env.env_owner}}</td>
                                     <td>{{ env.env_path }}</td>
                                     <td>{{ env.create_time}}</td>

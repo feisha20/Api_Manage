@@ -126,13 +126,15 @@ def get_collection_detail(request):
     nid = request.GET.get('nid')
     uid = request.GET.get('uid')
     obj = models.Collections.objects.filter(id=nid).first()
-    obj2 = models.Envs.objects.filter(env_uid=uid).all().exclude(env_path='')
-    return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2})
+    obj2 = models.Envs.objects.filter(env_uid=uid).filter(status=1, type=0).exclude(env_path='')
+    obj3 = models.Envs.objects.filter(env_uid=uid).filter(status=1, type=1).exclude(env_path='')
+    return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2, 'obj3': obj3})
 
 
 @login_required
 def run_collection(request):
     env_file = request.POST.get('env_path')
+    glo_file = request.POST.get('glo_path')
     print("env_file:" + env_file)
     cid = request.POST.get('cid')
     col_file = request.POST.get('collection_path')
@@ -144,7 +146,7 @@ def run_collection(request):
     report_template_path = os.path.dirname(__file__) + "/collections/templates/"
     report_template = "--ignore-redirects --reporters cli,html --reporter-html-template" + report_template_path + "template-default-colored.hbs"
     if env_file != "":
-        run_sh = "newman run " + collections_path + col_file + " -g " + collections_path + "globals.json" + " -e " + collections_path + str(
+        run_sh = "newman run " + collections_path + col_file + " -g " + collections_path + glo_file + " -e " + collections_path + str(
             env_file) + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
     else:
         run_sh = "newman run " + collections_path + col_file + " -r html --reporter-html-export " + report_path + report_file + " " + report_template
@@ -175,4 +177,4 @@ def stop_collection(request):
     shell = "kill -9  " + str(children_id)
     print(shell)
     subprocess.Popen(shell)
-    return render(request, 'collections_manage.html', {"collections": collection_list, "xkeys": xkey_list})
+    return render(request, 'collections_manage.html', {"collections": collection_list})

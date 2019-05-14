@@ -43,14 +43,15 @@
                             </form>
                             <div class="form-group">
                                 <form role="form" action="/postman_manage/get_collections/" method="POST">
-                                    <select style="height:30px; width: 150px" class="chosen-select" name="xkey" required="">
+                                    <select style="height:30px; width: 150px" class="chosen-select" name="xkey"
+                                            required="">
                                         <option value="">请选择同步谁的......</option>
                                         {% for xkey in xkeys %}
-                                          <option value="{{ xkey.xkey }}">{{ xkey.xkey_owner }}</option>
+                                            <option value="{{ xkey.xkey }}">{{ xkey.xkey_owner }}</option>
                                         {% endfor %}
                                     </select>
-                                     <button class="btn btn-sm btn-primary"
-                                        type="submit"><strong>同步</strong>
+                                    <button class="btn btn-sm btn-primary"
+                                            type="submit"><strong>同步</strong>
                                     </button>
                                 </form>
                             </div>
@@ -79,31 +80,36 @@
                                     <td class="hidden">{{ collection.id }}</td>
                                     <td class="hidden">{{ collection.collection_id }}</td>
                                     <td>{{ collection.collection_name }}</td>
-                                    <td>{{ collection.collection_owner}}</td>
-                                    <td class="hidden">{{ collection.collection_uid}}</td>
+                                    <td>{{ collection.collection_owner }}</td>
+                                    <td class="hidden">{{ collection.collection_uid }}</td>
                                     <td>{{ collection.collection_path }}</td>
                                     <td class="hidden">
                                         {% if collection.status == 1 %}
                                             <a style="color: green">{{ collection.status }}</a>
-                                            {% else %}
+                                        {% else %}
                                             <a style="color: red">{{ collection.status }}</a>
                                         {% endif %}
                                     </td>
                                     <td>{% if collection.run_status == 1 %}
-                                            <a style="color: green" href="/report/{{ collection.collection_name }}.html">Pass</a>
-                                            {% elif collection.run_status == 0 %}
-                                                <a style="color: red" href="/report/{{ collection.collection_name }}.html">Fail</a>
-                                            {% else %}
-                                                <a style="color: grey">None</a>
-                                        {% endif %}
+                                        <a style="color: green" href="/report/{{ collection.collection_name }}.html">Pass</a>
+                                    {% elif collection.run_status == 0 %}
+                                        <a style="color: red"
+                                           href="/report/{{ collection.collection_name }}.html">Fail</a>
+                                    {% else %}
+                                        <a style="color: grey">None</a>
+                                    {% endif %}
                                     </td>
                                     <td>{{ collection.remark }}</td>
-                                    <td>{{ collection.create_time}}</td>
-                                    <td><a  href="/postman_manage/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{collection.collection_uid }}">同步</a>
+                                    <td>{{ collection.create_time }}</td>
+                                    <td>
+                                        <a href="/postman_manage/get_single_collection.html?cid={{ collection.collection_id }}&xkey={{ collection.collection_uid }}">同步</a>
                                         <a href="/postman_manage/run_collection.html?nid={{ collection.id }}&uid={{ collection.collection_uid }}">运行</a>
-                                        &nbsp;&nbsp;<a href="/postman_manage/edit_collection.html?nid={{ collection.id }}" >编辑</a>
-                                        &nbsp;&nbsp;<a href="/postman_manage/del_collection.html?nid={{ collection.id }}" style="color: grey" onclick="return confirmDel()">删除</a>
-{#                                        <a  href="/postman_manage/stop_collection.html?nid={{ collection.id }}">停止</a>#}
+                                        &nbsp;&nbsp;<a
+                                            href="/postman_manage/edit_collection.html?nid={{ collection.id }}">编辑</a>
+                                        &nbsp;&nbsp;<a
+                                            href="/postman_manage/del_collection.html?nid={{ collection.id }}"
+                                            style="color: grey" onclick="return confirmDel()">删除</a>
+                                        {#                                        <a  href="/postman_manage/stop_collection.html?nid={{ collection.id }}">停止</a>#}
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -111,8 +117,9 @@
                     </div>
 
                 </div>
-        </div>
+            </div>
 
+        </div>
     </div>
 </div>
 
@@ -127,35 +134,18 @@
 <!-- 自定义js -->
 <script src="{% static 'js/content.js' %}"></script>
 
-<!-- CodeMirror -->
-<script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
-<script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
-
 <!-- Bootstrap table -->
 <script src="{% static 'js/plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
 <script src="{% static 'js/plugins/bootstrap-table/bootstrap-table-mobile.min.js' %}"></script>
 <script src="{% static 'js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js' %}"></script>
 
-
 <!-- iCheck -->
 <script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
 
-
-<script>
-    $(document).ready(function () {
-
-        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            styleActiveLine: true
-        });
-    });
-</script>
-
 <script language="JavaScript">
-function confirmDel(){
-return confirm("是否确定删除？");
-}
+    function confirmDel() {
+        return confirm("是否确定删除？");
+    }
 </script>
 
 </body>

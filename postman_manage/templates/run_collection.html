@@ -38,12 +38,22 @@
             <input type="text" name="collection_path" value="{{ obj.collection_path }}" class="form-control" readonly="readonly">
         </div>
         <div class="form-group">
-            <label>环境变量：</label>
+            <label>局部变量：</label>
             <br>
             <select name="env_path">
                 <option selected></option>
-                {% for env in obj2 %}
-                  <option value="{{ env.env_path }}">{{ env.env_path }}</option>
+                {% for env1 in obj2 %}
+                  <option value="{{ env1.env_path }}">{{ env1.env_path }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>全局变量：</label>
+            <br>
+            <select name="glo_path">
+                <option selected></option>
+                {% for env2 in obj3 %}
+                  <option value="{{ env2.env_path }}">{{ env2.env_path }}</option>
                 {% endfor %}
             </select>
         </div>

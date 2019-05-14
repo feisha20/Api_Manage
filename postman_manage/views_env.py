@@ -38,6 +38,7 @@ def get_envs(request):
                         env_name=envs[i]['name'],
                         env_owner=xkey_owner,
                         env_uid=xkey,
+                        type=1,
                         status=1,
 
                     )
@@ -112,3 +113,32 @@ def eidt_env(request):
         env_list = Envs.objects.all().filter(status=1)  # 读取envs
         xkey_list = models.Xkey.objects.all()
         return render(request, "envs_manage.html", {"envs": env_list, "xkeys": xkey_list})
+
+
+# 手动上传
+@login_required
+def add_env(request):
+    if request.method == 'GET':
+        return render(request, 'add_env.html')
+    elif request.method == 'POST':
+        env_id = request.POST.get('env_id')
+        env_name = request.POST.get('env_name')
+        type = request.POST.get('type')
+        env_owner = request.POST.get('env_owner')
+        myFile = request.FILES.get("env_path", None)  # 获取上传的文件，如果没有文件，则默认为None
+        path = os.path.dirname(__file__) + "/collections/"
+        destination = open(os.path.join(path, myFile.name),
+                           'wb+')  # 打开特定的文件进行二进制的写操作
+        for chunk in myFile.chunks():  # 分块写入文件
+            destination.write(chunk)
+        destination.close()
+        models.Envs.objects.create(
+            env_id=env_id,
+            env_name=env_name,
+            type=type,
+            env_owner=env_owner,
+            env_path=myFile,
+            status=1
+        )
+    env_list = Envs.objects.all().filter(status=1)   # 获取envs
+    return render(request, "envs_manage.html", {"envs": env_list})
