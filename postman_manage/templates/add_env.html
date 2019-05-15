@@ -36,7 +36,13 @@
         </div>
         <div class="form-group">
             <label>owner：</label>
-            <input type="text" name="env_owner"  class="form-control">
+            <br>
+            <select name="env_owner">
+                <option selected></option>
+                {% for xkey in xkeys %}
+                  <option value="{{ xkey.xkey_owner }}">{{ xkey.xkey_owner }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div>
             <label>env_path：</label>

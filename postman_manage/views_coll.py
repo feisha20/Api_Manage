@@ -127,7 +127,7 @@ def get_collection_detail(request):
     uid = request.GET.get('uid')
     obj = models.Collections.objects.filter(id=nid).first()
     obj2 = models.Envs.objects.filter(env_uid=uid).filter(status=1, type=0).exclude(env_path='')
-    obj3 = models.Envs.objects.filter(env_uid=uid).filter(status=1, type=1).exclude(env_path='')
+    obj3 = models.Envs.objects.filter(status=1, type=1).exclude(env_path='')
     return render(request, 'run_collection.html', {'obj': obj, 'obj2': obj2, 'obj3': obj3})
 
 

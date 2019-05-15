@@ -38,7 +38,7 @@ def get_envs(request):
                         env_name=envs[i]['name'],
                         env_owner=xkey_owner,
                         env_uid=xkey,
-                        type=1,
+                        type=0,
                         status=1,
 
                     )
@@ -118,13 +118,15 @@ def eidt_env(request):
 # 手动上传
 @login_required
 def add_env(request):
+    xkey_list = models.Xkey.objects.all()
     if request.method == 'GET':
-        return render(request, 'add_env.html')
+        return render(request, 'add_env.html', {"xkeys": xkey_list})
     elif request.method == 'POST':
         env_id = request.POST.get('env_id')
         env_name = request.POST.get('env_name')
         type = request.POST.get('type')
         env_owner = request.POST.get('env_owner')
+        env_uid = models.Xkey.objects.filter(xkey_owner=env_owner).values_list("xkey",flat=True)[0]
         myFile = request.FILES.get("env_path", None)  # 获取上传的文件，如果没有文件，则默认为None
         path = os.path.dirname(__file__) + "/collections/"
         destination = open(os.path.join(path, myFile.name),
@@ -138,7 +140,8 @@ def add_env(request):
             type=type,
             env_owner=env_owner,
             env_path=myFile,
-            status=1
+            status=1,
+            env_uid=env_uid
         )
     env_list = Envs.objects.all().filter(status=1)   # 获取envs
     return render(request, "envs_manage.html", {"envs": env_list})
