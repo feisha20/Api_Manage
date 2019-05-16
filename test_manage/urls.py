@@ -20,6 +20,7 @@ from django.views.static import serve
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -36,4 +37,5 @@ urlpatterns = [
                   url(r'^task/', include('task_manage.urls', namespace="task_manage")),
                   url(r'^sys_settings/', include('sys_settings.urls', namespace="sys_settings")),
                   url(r'^open_api/', include('open_api.urls', namespace="open_api")),
+                  url(r'^favicon.ico$',RedirectView.as_view(url=r'static/img/favicon.ico')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
