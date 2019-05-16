@@ -18,6 +18,8 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
     <link href="{% static 'css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
+    <!-- Data Tables -->
+    <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
 
 </head>
 
@@ -29,21 +31,21 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/task/tasksearch/">
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    <input type="search" name="content" placeholder="请输入任务关键字"
-                                           class="input-sm form-control">
-                                    <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>
-                                        </span>
-
-                                </div>
-                            </form>
+{#                            <form method="get" action="/task/tasksearch/">#}
+{#                                {% csrf_token %}#}
+{#                                <div class="input-group">#}
+{#                                    <input type="search" name="content" placeholder="请输入任务关键字"#}
+{#                                           class="input-sm form-control">#}
+{#                                    <span class="input-group-btn">#}
+{#                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>#}
+{#                                        </span>#}
+{##}
+{#                                </div>#}
+{#                            </form>#}
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
+                    <div class="table-content">
+                        <table class="table table-striped table-bordered table-hover dataTables-base">
                             <thead>
                             <tr>
                                 <th>任务内容</th>
@@ -88,39 +90,19 @@
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
-
-<!-- Peity -->
-<script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
-
 <!-- 自定义js -->
 <script src="{% static 'js/content.js' %}"></script>
 
-<!-- CodeMirror -->
-<script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
-<script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
+<!-- Data Tables -->
+<script src="{% static 'js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
 
-<!-- iCheck -->
-<script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
-
-<!-- Peity -->
-<script src="{% static 'js/demo/peity-demo.js' %}"></script>
-
+<!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
-
-        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            styleActiveLine: true
-        });
+        $('.dataTables-base').dataTable();
     });
-</script>
 
-
-<script language="JavaScript">
-function confirmDel(){
-return confirm("是否确定删除？");
-}
 </script>
 
 

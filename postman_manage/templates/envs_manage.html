@@ -18,6 +18,8 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
     <link href="{% static 'css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
+    <!-- Data Tables -->
+    <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
 
 </head>
 
@@ -29,17 +31,17 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-3">
-                            <form method="get" action="/postman_manage/env_search/">
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    <input type="search" name="env_name" placeholder="请输入env名称"
-                                           class="input-sm form-control">
-                                    <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>
-                                        </span>
-
-                                </div>
-                            </form>
+{#                            <form method="get" action="/postman_manage/env_search/">#}
+{#                                {% csrf_token %}#}
+{#                                <div class="input-group">#}
+{#                                    <input type="search" name="env_name" placeholder="请输入env名称"#}
+{#                                           class="input-sm form-control">#}
+{#                                    <span class="input-group-btn">#}
+{#                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>#}
+{#                                        </span>#}
+{##}
+{#                                </div>#}
+{#                            </form>#}
                             <div class="form-group">
                                 <form role="form" action="/postman_manage/get_envs/" method="POST">
                                     <select style="height:30px; width: 150px" class="chosen-select" name="xkey" required="">
@@ -57,8 +59,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
+                    <div class="table-content">
+                        <table class="table table-striped table-bordered table-hover dataTables-base">
                             <thead>
                             <tr>
                                 <th class="hidden">Id</th>
@@ -115,26 +117,7 @@
 <!-- 自定义js -->
 <script src="{% static 'js/content.js' %}"></script>
 
-<!-- CodeMirror -->
-<script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
-<script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
 
-<!-- iCheck -->
-<script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
-
-<!-- Peity -->
-<script src="{% static 'js/demo/peity-demo.js' %}"></script>
-
-<script>
-    $(document).ready(function () {
-
-        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            styleActiveLine: true
-        });
-    });
-</script>
 
 <script language="JavaScript">
 function confirmDel(){
@@ -142,6 +125,17 @@ return confirm("是否确定删除？");
 }
 </script>
 
+<!-- Data Tables -->
+<script src="{% static 'js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+        $('.dataTables-base').dataTable();
+    });
+
+</script>
 
 </body>
 

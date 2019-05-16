@@ -19,6 +19,9 @@
     <link href="{% static 'css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
     <link href="{% static 'css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
 
+    <!-- Data Tables -->
+    <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
+
 </head>
 
 <body class="gray-bg">
@@ -31,14 +34,14 @@
                         <div class="col-sm-3">
                             <form method="get" action="/postman_manage/xkeysearch/">
                                 {% csrf_token %}
-                                <div class="input-group">
-                                    <input type="search" name="xkey_owner" placeholder="请输入xkey所有者"
-                                           class="input-sm form-control">
-                                    <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>
-                                        </span>
-
-                                </div>
+{#                                <div class="input-group">#}
+{#                                    <input type="search" name="xkey_owner" placeholder="请输入xkey所有者"#}
+{#                                           class="input-sm form-control">#}
+{#                                    <span class="input-group-btn">#}
+{#                                            <button type="submit" class="btn btn-sm btn-primary">搜索</button>#}
+{#                                        </span>#}
+{##}
+{#                                </div>#}
                             </form>
                             <div class="text-left">
                                 <a data-toggle="modal" class="btn btn-primary"
@@ -46,12 +49,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
+                    <div class="table-content">
+                        <table class="table table-striped table-bordered table-hover dataTables-base">
                             <thead>
                             <tr>
-
-                                <th>ID</th>
+                                <th class="hidden">ID</th>
                                 <th>Xkey</th>
                                 <th>所有者</th>
                                 <th>备注</th>
@@ -62,13 +64,14 @@
                             <tbody>
                             {% for xkey in xkeys %}
                                 <tr>
-                                    <td>{{ xkey.id }}</td>
+                                    <td class="hidden">{{ xkey.id }}</td>
                                     <td>{{ xkey.xkey }}</td>
-                                    <td>{{ xkey.xkey_owner}}</td>
+                                    <td>{{ xkey.xkey_owner }}</td>
                                     <td>{{ xkey.remark }}</td>
-                                    <td>{{ xkey.create_time}}</td>
+                                    <td>{{ xkey.create_time }}</td>
                                     <td><a href="/postman_manage/edit_xkey.html?nid={{ xkey.id }}">编辑</a>&nbsp;&nbsp;<a
-                                            href="/postman_manage/del_xkey.html?nid={{ xkey.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
+                                            href="/postman_manage/del_xkey.html?nid={{ xkey.id }}" style="color: grey"
+                                            onclick="return confirmDel()">删除</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -88,7 +91,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>所有者：</label>
-                                                    <input type="text" name="xkey_owner" class="form-control" required="">
+                                                    <input type="text" name="xkey_owner" class="form-control"
+                                                           required="">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>备注：</label>
@@ -108,41 +112,6 @@
                             </div>
                         </div>
                     </div>
-                    <div id="modal-form2" class="modal fade" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-sm-11">
-                                            <form role="form" action="/postman_manage/update_xkey/" method="POST">
-                                                {% csrf_token %}
-                                                <div class="form-group">
-                                                    <label>Xkey3：</label>
-                                                    <input type="text" name="xkey" class="form-control" required="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>所有者：</label>
-                                                    <input type="text" name="xkey_owner" class="form-control" required="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>备注：</label>
-                                                    <input type="text" name="remark" class="form-control">
-                                                </div>
-                                                <div>
-                                                    <button class="btn btn-sm btn-primary m-t-n-xs"
-                                                            type="submit"><strong>保存</strong>
-                                                    </button>
-                                                </div>
-
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -155,40 +124,28 @@
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 
-<!-- Peity -->
-<script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
-
 <!-- 自定义js -->
 <script src="{% static 'js/content.js' %}"></script>
 
-<!-- CodeMirror -->
-<script src="{% static 'js/plugins/codemirror/codemirror.js' %}"></script>
-<script src="{% static 'js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
-
-<!-- iCheck -->
-<script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
-
-<!-- Peity -->
-<script src="{% static 'js/demo/peity-demo.js' %}"></script>
-
-<script>
-    $(document).ready(function () {
-
-        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            styleActiveLine: true
-        });
-    });
-</script>
+<!-- Data Tables -->
+<script src="{% static 'js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
 
 
 <script language="JavaScript">
-function confirmDel(){
-return confirm("是否确定删除？");
-}
+    function confirmDel() {
+        return confirm("是否确定删除？");
+    }
 </script>
 
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+        $('.dataTables-base').dataTable();
+    });
+
+</script>
 
 </body>
 

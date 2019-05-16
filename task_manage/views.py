@@ -22,9 +22,9 @@ def add_task(request):
             status=0,
             owner=request.user
         )
-    task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
-    task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
-    task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
+    task_list0 = Task.objects.filter(owner=request.user).filter(status=0).order_by("-create_time")
+    task_list1 = Task.objects.filter(owner=request.user).filter(status=1).order_by("-create_time")
+    task_list2 = Task.objects.filter(owner=request.user).filter(status=2).order_by("-create_time")
     return render(request, "task_list.html",
                   {"tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 
@@ -33,9 +33,9 @@ def add_task(request):
 @login_required
 def task_list(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
-    task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
-    task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
-    task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
+    task_list0 = Task.objects.filter(owner=request.user).filter(status=0).order_by("-create_time")
+    task_list1 = Task.objects.filter(owner=request.user).filter(status=1).order_by("-create_time")
+    task_list2 = Task.objects.filter(owner=request.user).filter(status=2).order_by("-create_time")
     return render(request, "task_list.html", {"user": username, "tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 
 
@@ -47,9 +47,9 @@ def to_task1(request):
         models.Task.objects.filter(id=nid).update(
             status=1,
         )
-        task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
-        task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
-        task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
+        task_list0 = Task.objects.filter(owner=request.user).filter(status=0).order_by("-create_time")
+        task_list1 = Task.objects.filter(owner=request.user).filter(status=1).order_by("-create_time")
+        task_list2 = Task.objects.filter(owner=request.user).filter(status=2).order_by("-create_time")
         return render(request, "task_list.html",
                       {"tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 
@@ -62,9 +62,9 @@ def to_task2(request):
         models.Task.objects.filter(id=nid).update(
             status=2,
         )
-        task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
-        task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
-        task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
+        task_list0 = Task.objects.filter(owner=request.user).filter(status=0).order_by("-create_time")
+        task_list1 = Task.objects.filter(owner=request.user).filter(status=1).order_by("-create_time")
+        task_list2 = Task.objects.filter(owner=request.user).filter(status=2).order_by("-create_time")
         return render(request, "task_list.html",
                       {"tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 
@@ -77,9 +77,9 @@ def to_task0(request):
         models.Task.objects.filter(id=nid).update(
             status=0,
         )
-        task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
-        task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
-        task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
+        task_list0 = Task.objects.filter(owner=request.user).filter(status=0).order_by("-create_time")
+        task_list1 = Task.objects.filter(owner=request.user).filter(status=1).order_by("-create_time")
+        task_list2 = Task.objects.filter(owner=request.user).filter(status=2).order_by("-create_time")
         return render(request, "task_list.html",
                       {"tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 
@@ -92,9 +92,9 @@ def to_task3(request):
         models.Task.objects.filter(id=nid).update(
             status=3,
         )
-        task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
-        task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
-        task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
+        task_list0 = Task.objects.filter(owner=request.user).filter(status=0).order_by("-create_time")
+        task_list1 = Task.objects.filter(owner=request.user).filter(status=1).order_by("-create_time")
+        task_list2 = Task.objects.filter(owner=request.user).filter(status=2).order_by("-create_time")
         return render(request, "task_list.html",
                       {"tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 
@@ -107,9 +107,9 @@ def to_task4(request):
         models.Task.objects.filter(id=nid).update(
             status=4,
         )
-        task_list0 = Task.objects.filter(owner=request.user).filter(status=0)
-        task_list1 = Task.objects.filter(owner=request.user).filter(status=1)
-        task_list2 = Task.objects.filter(owner=request.user).filter(status=2)
+        task_list0 = Task.objects.filter(owner=request.user).filter(status=0).order_by("-create_time")
+        task_list1 = Task.objects.filter(owner=request.user).filter(status=1).order_by("-create_time")
+        task_list2 = Task.objects.filter(owner=request.user).filter(status=2).order_by("-create_time")
         return render(request, "task_list.html",
                       {"tasks0": task_list0, "tasks1": task_list1, "tasks2": task_list2})
 

@@ -1,0 +1,27 @@
+ul{
+    margin: 0;
+    padding: 0;
+}
+li{
+    margin: 0;
+    padding: 0;
+    border: 1px solid #cc0000;
+    list-style: none;
+    width: 50px;
+    overflow: hidden;
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000;
+}
+.notext {
+
+}
+.notext i{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    width: 30px;
+    font-style: normal;
+}
