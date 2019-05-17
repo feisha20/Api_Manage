@@ -123,13 +123,13 @@
                                 <small>{{ user.email }}</small>
                             {% endfor %}
                     </div>
-
-                   {% if user_info.sex == 0 %}
-                       <img src="/static/img/tx-woman.png" class="img-circle circle-border m-b-md" alt="profile" style="height: 100px">
-                       {% else %}
-                       <img src="/static/img/tx-man.png" class="img-circle circle-border m-b-md" alt="profile" style="height: 100px">
-                   {% endif %}
-
+                   {% for user_info in user_info %}
+                       {% if user_info.sex == 1 %}
+                           <img src="/static/img/tx-woman.png" class="img-circle circle-border m-b-md" alt="profile" style="height: 100px">
+                           {% else %}
+                           <img src="/static/img/tx-man.png" class="img-circle circle-border m-b-md" alt="profile" style="height: 100px">
+                       {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="widget-text-box">
                     {% for user_info in user_info %}
@@ -225,11 +225,11 @@
                                 <select class="chosen-select" name="sex" required="">
                                     {% for user_info in user_info %}
                                         {% if user_info.sex == 0 %}
-                                            <option value="0" selected>我是靓仔</option>
-                                            <option value="1">我是靓女</option>
+                                            <option value="0" selected>帅哥</option>
+                                            <option value="1">美女</option>
                                         {% else %}
-                                            <option value="0">我是靓仔</option>
-                                            <option value="1" selected>我是靓女</option>
+                                            <option value="0">帅哥</option>
+                                            <option value="1" selected>美女</option>
                                         {% endif %}
                                 </select>
                                         <div class="form-group"><label>简介：</label> <input type="text" placeholder="请输入最能体现你个人特点的一句话" class="form-control" name="remark" value="{{ user_info.remark }}"></div>
