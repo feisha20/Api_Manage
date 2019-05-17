@@ -42,8 +42,8 @@ class Envs(models.Model):
     env_owner = models.CharField('env_owner', max_length=200)  # env_owner
     env_uid = models.CharField('env_uid', max_length=200)  # env_uid
     env_path = models.CharField('env_path', max_length=200)  # env_path
-    type = models.BooleanField('类型，0：环境变量 1.公共变量')
-    status = models.BooleanField('是否有效')
+    type = models.BooleanField('类型，0：环境变量 1.公共变量',default=0)
+    status = models.BooleanField('是否有效',default=0)
     create_time = models.DateTimeField('创建时间', auto_now=True)  # 创建时间，自动获取当前时间
 
     class Meta:

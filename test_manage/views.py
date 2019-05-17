@@ -6,8 +6,8 @@ from django.shortcuts import render
 from test_manage.settings import DATABASES
 from django.contrib.auth.decorators import login_required
 from project_manage.models import ProjectVersion
-
-
+from django.contrib.auth.models import User
+from base.models import User_info
 db = DATABASES
 
 # 数据库的链接信息
@@ -67,8 +67,15 @@ def home(request):
 @login_required
 def index(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
+    # first_name = User.objects.filter(username=username).values_list("first_name",flat=True)[0]
+    # last_name = User.objects.filter(username=username).values_list("last_name", flat=True)[0]
+    # print(first_name)
+    # print(last_name)
+    # print(username)
+    user = User.objects.filter(username=username)
+    user_info = User_info.objects.filter(owner=request.user)
     projectversion_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取project
-    return render(request, "index_v2.html", {"user": username, "projectversions": projectversion_list})
+    return render(request, "index_v2.html", {"user": username, "projectversions": projectversion_list, 'user':user, 'user_info': user_info})
 
 
 # 文件管理

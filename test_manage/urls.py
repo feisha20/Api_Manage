@@ -32,6 +32,7 @@ urlpatterns = [
                   path('index2/', views.index2),
                   path('file_manage/', views.file_manage),
                   url(r'^postman_manage/', include('postman_manage.urls', namespace="postman_manage")),
+                  url(r'^base/', include('base.urls', namespace="base")),
                   url('^report/(?P<path>.*)$', serve, {'document_root': settings.REPORT_ROOT}),
                   url(r'^project/', include('project_manage.urls', namespace="project_manage")),
                   url(r'^task/', include('task_manage.urls', namespace="task_manage")),

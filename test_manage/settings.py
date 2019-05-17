@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'open_api',
     'project_manage',
     'task_manage',
+    'base'
 ]
 
 MIDDLEWARE = [

@@ -113,6 +113,35 @@
                 </div>
             </div>
             <div class="col-sm-5">
+                <div class="widget-head-color-box navy-bg p-lg text-center">
+                    <div class="m-b-md">
+                        <h2 class="font-bold no-margins">
+                            {% for user in user %}
+                                {{ user.last_name }}{{ user.first_name }}
+
+                            </h2>
+                                <small>{{ user.email }}</small>
+                            {% endfor %}
+                    </div>
+
+                   {% if user_info.sex == 0 %}
+                       <img src="/static/img/tx-woman.png" class="img-circle circle-border m-b-md" alt="profile" style="height: 100px">
+                       {% else %}
+                       <img src="/static/img/tx-man.png" class="img-circle circle-border m-b-md" alt="profile" style="height: 100px">
+                   {% endif %}
+
+                </div>
+                <div class="widget-text-box">
+                    {% for user_info in user_info %}
+                    <h4 class="media-heading">简介：</h4>
+                    <p>{{ user_info.remark }}</p>
+                    {% endfor %}
+                    <div style="text-align: right">
+                        <a style="color: #1d9d74" data-toggle="modal" data-target="#myModal">修改信息</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>最新消息</h5>
@@ -181,7 +210,41 @@
                 </div>
 
             </div>
+            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                <form role="form" action="/base/edit_user_info.html" method="POST">
+                    <div class="modal-content animated bounceInRight">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                            </button>
+                            <h4 class="modal-title">个人信息</h4>
+                            <small class="font-bold">留下你最霸气的一句话，让大家认识你。</small>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>性别：</strong></p>
+                                <select class="chosen-select" name="sex" required="">
+                                    {% for user_info in user_info %}
+                                        {% if user_info.sex == 0 %}
+                                            <option value="0" selected>我是靓仔</option>
+                                            <option value="1">我是靓女</option>
+                                        {% else %}
+                                            <option value="0">我是靓仔</option>
+                                            <option value="1" selected>我是靓女</option>
+                                        {% endif %}
+                                </select>
+                                        <div class="form-group"><label>简介：</label> <input type="text" placeholder="请输入最能体现你个人特点的一句话" class="form-control" name="remark" value="{{ user_info.remark }}"></div>
+                                    {% endfor %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                        </div>
 
+                    </div>
+            </div>
 
         </div>
     </div>
