@@ -14,13 +14,13 @@ from django.shortcuts import render
 # 创建数据库连接
 def conn(database):
     db_list = Dbs.objects.values_list("name", flat=True)
-    host = Dbs.objects.filter(db=database).values_list("host", flat=True).first()
-    port = Dbs.objects.filter(db=database).values_list("port", flat=True).first()
+    host = Dbs.objects.filter(name=database).values_list("host", flat=True).first()
+    port = Dbs.objects.filter(name=database).values_list("port", flat=True).first()
     if port is not None:
         port = int(port)
-    user = Dbs.objects.filter(db=database).values_list("user", flat=True).first()
-    password = Dbs.objects.filter(db=database).values_list("password", flat=True).first()
-    db = Dbs.objects.filter(db=database).values_list("db", flat=True).first()
+    user = Dbs.objects.filter(name=database).values_list("user", flat=True).first()
+    password = Dbs.objects.filter(name=database).values_list("password", flat=True).first()
+    db = Dbs.objects.filter(name=database).values_list("db", flat=True).first()
 
     if database in db_list:
         con = pymysql.connect(host=host, port=port, user=user,
