@@ -20,11 +20,14 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/ban.js' %}"></script>
 </head>
 
-<body class="gray-bg" background="/static/img/login_bg.png">
-
-    <div class="middle-box text-center loginscreen  animated fadeInDown">
+<body class="gray-bg">
+   <canvas style="opacity: 0.7">
+   </canvas>
+    <div class="middle-box text-center loginscreen  animated fadeInDown" style="position: absolute;left: 40%; top: 50px">
         <div>
             <div>
                 <img alt="logo" height="80" width="80" src="/static/img/logo-s.png"/>
@@ -47,12 +50,9 @@
             </form>
         </div>
     </div>
-
     <!-- 全局js -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-
 </body>
 
 </html>
