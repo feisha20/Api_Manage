@@ -45,6 +45,11 @@
                 <div class="form-group">
                     <input type="password" class="form-control" name="password" placeholder="密码" required="">
                 </div>
+                <div style="color: red" class="small">
+                    {% for error in error %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
 
             </form>

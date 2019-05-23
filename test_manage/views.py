@@ -55,7 +55,7 @@ def login(request):
             response = HttpResponseRedirect('/home/')
             return response
         else:
-            return render(request, 'login.html', {'error': 'username or password error'})
+            return render(request, 'login.html', {'error': '账号或者密码错误，请重新输入！'})
     return render(request, 'login.html')
 
 

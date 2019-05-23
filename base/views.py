@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from base import models
 from base.models import User_info
 from django.contrib.auth.decorators import login_required
 from project_manage.models import ProjectVersion
 from django.contrib.auth.models import User
-
+from django.shortcuts import HttpResponse
+from django.contrib.auth.hashers import make_password
 
 @login_required
 def eidt_user_info(request):
@@ -34,3 +35,14 @@ def add_user_info(request):
             owner_id=request.user
         )
     return True
+
+
+# 修改密码
+@login_required()
+def modify_pw(request):
+    if request.method == 'POST':
+        pw1 = request.POST.get('password1', '')
+        user = request.user
+        user.password = make_password(pw1)
+        user.save()
+        return redirect("login.html")

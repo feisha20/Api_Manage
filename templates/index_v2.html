@@ -138,6 +138,7 @@
                     {% endfor %}
                     <div style="text-align: right">
                         <a style="color: #1d9d74" data-toggle="modal" data-target="#myModal">修改信息</a>
+                        <a style="color: #1d9d74" data-toggle="modal" data-target="#myModal2">修改密码</a>
                     </div>
                 </div>
             </div>
@@ -239,6 +240,28 @@
                                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
                                 <button type="submit" class="btn btn-primary">保存</button>
                             </div>
+                        </div>
+                    </form>
+                        </div>
+
+                    </div>
+            <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                <form role="form" action="/base/modify_pw.html" method="POST">
+                    <div class="modal-content animated bounceInRight">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                            </button>
+                            <h4 class="modal-title">修改密码</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="password" placeholder="输入新密码" class="form-control" name="password1" minlength="6" maxlength="20" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存</button>
+                        </div>
                         </div>
                     </form>
                         </div>
