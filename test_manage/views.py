@@ -94,3 +94,9 @@ def index2(request):
 def logout(request):
     auth.logout(request)
     return render(request, 'login.html')
+
+
+# 访问项目日志
+def project_log(request):
+    projectversion_list = ProjectVersion.objects.all().order_by("-publish_date")  # 读取project
+    return render(request, 'project_log.html', {"projectversions": projectversion_list})
