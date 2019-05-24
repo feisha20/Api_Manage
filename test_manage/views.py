@@ -68,8 +68,6 @@ def home(request):
 def index(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
     owner_ids = User_info.objects.values_list("owner_id", flat=True)
-    print(request.user.id)
-    print(owner_ids)
     if request.user.id not in owner_ids:
         User_info.objects.create(
             sex=0,

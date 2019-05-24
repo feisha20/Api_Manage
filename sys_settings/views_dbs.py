@@ -25,16 +25,21 @@ def add_db(request):
         user = request.POST.get('user')
         password = request.POST.get('password')
         db = request.POST.get('db')
-        models.Dbs.objects.create(
-            name=name,
-            host=host,
-            port=port,
-            user=user,
-            password=password,
-            db=db
-        )
-    db_list = Dbs.objects.all()  # 读取db
-    return render(request, "dbs_manage.html", {"dbs": db_list})
+        remark = request.POST.get('remark')
+        if name in  Dbs.objects.values_list("name", flat=True):
+            return render(request, "add_db.html", {"error": "数据库名称已经存在，请重新输入！"})
+        else:
+            models.Dbs.objects.create(
+                name=name,
+                host=host,
+                port=port,
+                user=user,
+                password=password,
+                db=db,
+                remark=remark
+            )
+            db_list = Dbs.objects.all()  # 读取db
+            return render(request, "dbs_manage.html", {"dbs": db_list})
 
 
 # 修改db
@@ -52,6 +57,7 @@ def eidt_db(request):
         user = request.POST.get('user')
         password = request.POST.get('password')
         db = request.POST.get('db')
+        remark = request.POST.get('remark')
         models.Dbs.objects.filter(id=nid).update(
             name=name,
             host=host,
@@ -59,7 +65,7 @@ def eidt_db(request):
             user=user,
             password=password,
             db=db,
-
+            remark=remark
         )
         db_list = Dbs.objects.all()  # 读取db
         return render(request, "dbs_manage.html", {"dbs": db_list})

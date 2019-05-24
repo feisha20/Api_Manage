@@ -55,8 +55,8 @@
                                 <th>host</th>
                                 <th>port</th>
                                 <th>user</th>
-                                <th>password</th>
                                 <th>db</th>
+                                <th>备注</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
@@ -68,9 +68,9 @@
                                     <td>{{ db.host }}</td>
                                     <td>{{ db.port}}</td>
                                     <td>{{ db.user }}</td>
-                                    <td>******</td>
                                     <td>{{ db.db }}</td>
-                                    <td>{{ db.create_time}}</td>
+                                    <td style="width: 20%">{{ db.remark }}</td>
+                                    <td style="width: 12%">{{ db.create_time}}</td>
                                     <td><a href="/sys_settings/edit_db.html?nid={{ db.id }}">编辑</a>&nbsp;&nbsp;<a
                                             href="/sys_settings/del_db.html?nid={{ db.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
                                 </tr>
