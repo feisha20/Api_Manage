@@ -56,7 +56,7 @@
                                     <td>{{ testsuit.project }}</td>
                                     <td style="width: 30%">{{ testsuit.name }}</td>
                                     <td style="width: 10%">{{ testsuit.ids }}</td>
-                                    <td>{{ testsuit.shell }}</td>
+                                    <td>{{ testsuit.shell|truncatechars:50}}</td>
                                     <td>{{ testsuit.result }}</td>
                                     <td style="width: 13%">{{ testsuit.run_time}}</td>
                                     <td><a href="/web_auto/run_test.html?nid={{ testsuit.id }}" style="color: #1d9d74">运行</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

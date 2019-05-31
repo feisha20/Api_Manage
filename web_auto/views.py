@@ -1,15 +1,18 @@
 import os
 import django
+import datetime
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'test_manage.settings'
 django.setup()
 from django.shortcuts import render
 from web_auto import models
-from web_auto.models import AutoProjects,AutoCase,TestSuit
+from web_auto.models import AutoProjects, AutoCase, TestSuit
 from django.contrib.auth.decorators import login_required
 import pymysql
-from test_manage.settings import DATABASES2
+from test_manage.settings import DATABASES2, JENKINS_SETTINGS
 import subprocess
 from django.contrib.auth.hashers import make_password, check_password
+
 
 # Create your views here.
 
@@ -28,11 +31,11 @@ def add_autoproject(request):
         return render(request, 'add_autoproject.html')
     elif request.method == 'POST':
         name = request.POST.get('name')
-        project_workspace = request.POST.get('project_workspace')
+        job_name = request.POST.get('job_name')
         remark = request.POST.get('remark')
         models.AutoProjects.objects.create(
             name=name,
-            project_workspace=project_workspace,
+            job_name=job_name,
             remark=remark,
         )
     project_list = AutoProjects.objects.all()  # 读取project
@@ -49,11 +52,11 @@ def eidt_autoproject(request):
     elif request.method == 'POST':
         nid = request.GET.get('nid')
         name = request.POST.get('name')
-        project_workspace = request.POST.get('project_workspace')
+        job_name = request.POST.get('job_name')
         remark = request.POST.get('remark')
         models.AutoProjects.objects.filter(id=nid).update(
             name=name,
-            project_workspace=project_workspace,
+            job_name=job_name,
             remark=remark,
 
         )
@@ -83,7 +86,7 @@ def get_autopcases(request):
 def add_case(request):
     if request.method == 'GET':
         autoprojects_list = AutoProjects.objects.all()
-        return render(request, 'add_case.html',{"autoprojects":autoprojects_list})
+        return render(request, 'add_case.html', {"autoprojects": autoprojects_list})
     elif request.method == 'POST':
         project = request.POST.get('project')
         title = request.POST.get('title')
@@ -108,7 +111,7 @@ def eidt_case(request):
         nid = request.GET.get('nid')
         obj = models.AutoCase.objects.filter(id=nid).first()
         project_obj = models.AutoProjects.objects.all()
-        return render(request, 'edit_case.html', {'obj': obj, 'autoprojects':project_obj})
+        return render(request, 'edit_case.html', {'obj': obj, 'autoprojects': project_obj})
     elif request.method == 'POST':
         nid = request.GET.get('nid')
         project = request.POST.get('project')
@@ -150,7 +153,7 @@ def add_testsuit(request):
     if request.method == 'GET':
         autoprojects_list = AutoProjects.objects.all()
         cases_list = AutoCase.objects.all()  # 读取case
-        return render(request, 'add_testsuit.html',{"autoprojects":autoprojects_list,"autocases": cases_list})
+        return render(request, 'add_testsuit.html', {"autoprojects": autoprojects_list, "autocases": cases_list})
     elif request.method == 'POST':
         project = request.POST.get('project')
         name = request.POST.get('name')
@@ -172,7 +175,7 @@ def eidt_testsuit(request):
         obj = models.TestSuit.objects.filter(id=nid).first()
         project_obj = models.AutoProjects.objects.all()
         cases_list = AutoCase.objects.all()  # 读取case
-        return render(request, 'edit_testsuit.html', {'obj': obj, 'autoprojects':project_obj, "autocases": cases_list})
+        return render(request, 'edit_testsuit.html', {'obj': obj, 'autoprojects': project_obj, "autocases": cases_list})
     elif request.method == 'POST':
         nid = request.GET.get('nid')
         project = request.POST.get('project')
@@ -207,6 +210,7 @@ con = pymysql.connect(
     charset="utf8",
 )
 
+
 # 写数据库
 def write_db(sql):
     con.ping(reconnect=True)
@@ -221,12 +225,21 @@ def write_db(sql):
 def run_test(request):
     nid = request.GET.get('nid')
     shell = models.TestSuit.objects.filter(id=nid).values_list("shell", flat=True)[0]
-    sql = "update run_shell set shell='" + str(shell) + "' where id=1"
+    run_shell = "python3 /usr/local/python3/lib/python3.6/site-packages/pytest.py -v -s " + shell + " --html=./report/report.html"
+    project = models.TestSuit.objects.filter(id=nid).values_list("project", flat=True)[0]
+    jobname = models.AutoProjects.objects.filter(name=project).values_list("job_name", flat=True)[0]
+    sql = "update run_shell set shell='" + str(run_shell) + "' where id=1"
     write_db(sql)
-    jenkins_url = "http://10.13.136.210:8085/"
+    jenkins_url = JENKINS_SETTINGS["URL"]
+    user = JENKINS_SETTINGS['USER']
+    password = JENKINS_SETTINGS['PASSWORD']
     jenkins_cli_jar_path = os.path.dirname(__file__) + "/jenkins_cli/"
-    to_jenkins = "java -jar " + jenkins_cli_jar_path + "jenkins-cli.jar -s " + jenkins_url + " -auth linjt:ljt123456 build py_selenium"
+    to_jenkins = "java -jar " + jenkins_cli_jar_path + "jenkins-cli.jar -s " + jenkins_url + " -auth " + user + ":" + password + " build " + jobname
     print(to_jenkins)
     subprocess.Popen(to_jenkins, shell=True)
+    models.TestSuit.objects.filter(id=nid).update(
+        result="running",
+        run_time=datetime.datetime.now()
+    )
     testsuits_list = TestSuit.objects.all()  # 读取project
     return render(request, "testsuits.html", {"testsuits": testsuits_list})

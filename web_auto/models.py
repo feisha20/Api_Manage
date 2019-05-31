@@ -3,8 +3,8 @@ from django.db import models
 
 # Create your models here.
 class AutoProjects(models.Model):
-    name = models.CharField('name', max_length=200)  # 产品名称
-    project_workspace = models.CharField('project_workspace', max_length=200)  # 项目工作目录
+    name = models.CharField('name', max_length=200)  # 项目名称
+    job_name = models.CharField('job_name', max_length=200)  # JOB名称
     remark = models.CharField('remark', max_length=200)  # 备注
     create_time = models.DateTimeField('创建时间', auto_now=True)  # 创建时间，自动获取当前时间
 

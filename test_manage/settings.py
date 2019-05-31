@@ -127,6 +127,12 @@ DATABASES2 = {
 #     }
 # }
 
+JENKINS_SETTINGS = {
+    'URL': 'http://10.13.136.210:8085/',
+    'USER': 'linjt',
+    'PASSWORD': 'ljt123456',
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
