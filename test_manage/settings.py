@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'open_api',
     'project_manage',
     'task_manage',
-    'base'
+    'base',
+    'web_auto',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +101,19 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+# webauto数据库
+DATABASES2 = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pyselenium',
+        'USER': 'pyselenium',
+        'PASSWORD': 'cfBQP4dgXM1k0Or5ho',
+        'HOST': 'infra.mysql.topideal.work',
+        'PORT': '3306',
+    }
+}
+
 
 # 生产配置
 # DATABASES = {

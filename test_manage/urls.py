@@ -37,6 +37,7 @@ urlpatterns = [
                   url(r'^base/', include('base.urls', namespace="base")),
                   url('^report/(?P<path>.*)$', serve, {'document_root': settings.REPORT_ROOT}),
                   url(r'^project/', include('project_manage.urls', namespace="project_manage")),
+                  url(r'^web_auto/', include('web_auto.urls', namespace="web_auto")),
                   url(r'^task/', include('task_manage.urls', namespace="task_manage")),
                   url(r'^sys_settings/', include('sys_settings.urls', namespace="sys_settings")),
                   url(r'^open_api/', include('open_api.urls', namespace="open_api")),
