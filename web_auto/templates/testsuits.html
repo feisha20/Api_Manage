@@ -57,9 +57,18 @@
                                     <td style="width: 30%">{{ testsuit.name }}</td>
                                     <td style="width: 10%">{{ testsuit.ids }}</td>
                                     <td>{{ testsuit.shell|truncatechars:50}}</td>
-                                    <td>{{ testsuit.result }}</td>
+                                    <td>
+                                    {% if testsuit.result == "running" %}
+                                            <a style="color: #0e9aef">running</a>
+                                        {% elif testsuit.result == "FAILURE" %}
+                                            <a style="color: red">FAILURE</a>
+                                        {% elif testsuit.result == "SUCCESS" %}
+                                            <a style="color: #5cb85c">SUCCESS</a>
+                                    {% endif %}
+                                    </td>
                                     <td style="width: 13%">{{ testsuit.run_time}}</td>
-                                    <td><a href="/web_auto/run_test.html?nid={{ testsuit.id }}" style="color: #1d9d74">运行</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <td><a href="/web_auto/run_test.html?nid={{ testsuit.id }}" style="color: #1d9d74">运行</a>
+                                        <a href="/web_auto/get_result.html?nid={{ testsuit.id }}" style="color: #1d9d74">获取结果</a>
                                         <a href="/web_auto/edit_testsuit.html?nid={{ testsuit.id }}">编辑</a>&nbsp;&nbsp;<a
                                             href="/web_auto/del_testsuit.html?nid={{ testsuit.id }}" style="color: grey" onclick="return confirmDel()">删除</a></td>
                                 </tr>

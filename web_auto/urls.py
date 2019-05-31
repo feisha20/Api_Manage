@@ -16,4 +16,5 @@ urlpatterns = [
     path('edit_testsuit.html', views.eidt_testsuit),
     path('del_testsuit.html', views.del_testsuit),
     path('run_test.html', views.run_test),
+    path('get_result.html', views.get_result),
 ]

@@ -1,6 +1,8 @@
 import os
 import django
 import datetime
+import xml.dom.minidom as xmldom
+import time
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'test_manage.settings'
 django.setup()
@@ -243,3 +245,32 @@ def run_test(request):
     )
     testsuits_list = TestSuit.objects.all()  # 读取project
     return render(request, "testsuits.html", {"testsuits": testsuits_list})
+
+
+def get_result(request):
+    nid = request.GET.get('nid')
+    project = models.TestSuit.objects.filter(id=nid).values_list("project", flat=True)[0]
+    jobname = models.AutoProjects.objects.filter(name=project).values_list("job_name", flat=True)[0]
+    jenkins_url = JENKINS_SETTINGS["URL"]
+    user = JENKINS_SETTINGS['USER']
+    password = JENKINS_SETTINGS['PASSWORD']
+    shell = "curl " + jenkins_url + "job/" + jobname + "/lastBuild/api/xml --user " + user + ":" + password + " >./web_auto/build.xml"
+    print(shell)
+    subprocess.Popen(shell, shell=True)
+    domobj = xmldom.parse("./web_auto/build.xml")
+    elementobj = domobj.documentElement
+    subElementObj = elementobj.getElementsByTagName("building")
+    is_running = subElementObj[0].firstChild.data
+    print(is_running)
+    if is_running == "true":
+        testsuits_list = TestSuit.objects.all()  # 读取project
+        return render(request, "testsuits.html", {"testsuits": testsuits_list})
+    else:
+        subElementObj2 = elementobj.getElementsByTagName("result")
+        result = subElementObj2[0].firstChild.data
+        print(result)
+        models.TestSuit.objects.filter(id=nid).update(
+            result=result,
+        )
+        testsuits_list = TestSuit.objects.all()  # 读取project
+        return render(request, "testsuits.html", {"testsuits": testsuits_list})
