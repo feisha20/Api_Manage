@@ -129,8 +129,8 @@ DATABASES2 = {
 
 JENKINS_SETTINGS = {
     'URL': 'http://10.13.136.210:8085/',
-    'USER': 'linjt',
-    'PASSWORD': 'ljt123456',
+    'USER': 'test_build',
+    'PASSWORD': 'test123123',
 }
 
 

@@ -237,7 +237,7 @@ def run_test(request):
     password = JENKINS_SETTINGS['PASSWORD']
     jenkins_cli_jar_path = os.path.dirname(__file__) + "/jenkins_cli/"
     to_jenkins = "java -jar " + jenkins_cli_jar_path + "jenkins-cli.jar -s " + jenkins_url + " -auth " + user + ":" + password + " build " + jobname
-    print(to_jenkins)
+    # print(to_jenkins)
     subprocess.Popen(to_jenkins, shell=True)
     models.TestSuit.objects.filter(id=nid).update(
         result="running",
@@ -254,21 +254,22 @@ def get_result(request):
     jenkins_url = JENKINS_SETTINGS["URL"]
     user = JENKINS_SETTINGS['USER']
     password = JENKINS_SETTINGS['PASSWORD']
+    if os.path.exists("./web_auto/build.xml"):
+        os.remove("./web_auto/build.xml")
     shell = "curl " + jenkins_url + "job/" + jobname + "/lastBuild/api/xml --user " + user + ":" + password + " >./web_auto/build.xml"
-    print(shell)
+    # print(shell)
     subprocess.Popen(shell, shell=True)
+    time.sleep(2)
     domobj = xmldom.parse("./web_auto/build.xml")
     elementobj = domobj.documentElement
     subElementObj = elementobj.getElementsByTagName("building")
     is_running = subElementObj[0].firstChild.data
-    print(is_running)
     if is_running == "true":
         testsuits_list = TestSuit.objects.all()  # 读取project
         return render(request, "testsuits.html", {"testsuits": testsuits_list})
     else:
         subElementObj2 = elementobj.getElementsByTagName("result")
         result = subElementObj2[0].firstChild.data
-        print(result)
         models.TestSuit.objects.filter(id=nid).update(
             result=result,
         )
