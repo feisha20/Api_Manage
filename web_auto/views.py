@@ -241,6 +241,8 @@ def run_test(request):
     subprocess.Popen(to_jenkins, shell=True)
     models.TestSuit.objects.filter(id=nid).update(
         result="running",
+        build_job="",
+        job_url="",
         run_time=datetime.datetime.now()
     )
     testsuits_list = TestSuit.objects.all()  # 读取project
@@ -269,9 +271,15 @@ def get_result(request):
         return render(request, "testsuits.html", {"testsuits": testsuits_list})
     else:
         subElementObj2 = elementobj.getElementsByTagName("result")
+        subElement_job = elementobj.getElementsByTagName("fullDisplayName")
+        subElement_joburl = elementobj.getElementsByTagName("url")
         result = subElementObj2[0].firstChild.data
+        build_job = subElement_job[0].firstChild.data
+        job_url = subElement_joburl[0].firstChild.data+ "/console"
         models.TestSuit.objects.filter(id=nid).update(
             result=result,
+            build_job=build_job,
+            job_url=job_url,
         )
         testsuits_list = TestSuit.objects.all()  # 读取project
         return render(request, "testsuits.html", {"testsuits": testsuits_list})

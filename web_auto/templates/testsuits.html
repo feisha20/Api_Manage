@@ -42,7 +42,7 @@
                                 <th hidden>id</th>
                                 <th>项目</th>
                                 <th>测试集合名称</th>
-                                <th>用例ids</th>
+                                <th>BUILD_JOB</th>
                                 <th>执行shell</th>
                                 <th>结果</th>
                                 <th>运行时间</th>
@@ -55,7 +55,7 @@
                                     <td hidden>{{ testsuit.id }}</td>
                                     <td>{{ testsuit.project }}</td>
                                     <td style="width: 30%">{{ testsuit.name }}</td>
-                                    <td style="width: 10%">{{ testsuit.ids }}</td>
+                                    <td><a href="{{ testsuit.job_url }}" target="_blank">{{ testsuit.build_job }}</a></td>
                                     <td>{{ testsuit.shell|truncatechars:50}}</td>
                                     <td>
                                     {% if testsuit.result == "running" %}

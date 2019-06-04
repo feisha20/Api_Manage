@@ -39,6 +39,8 @@ class TestSuit(models.Model):
     name = models.CharField('name', max_length=200)  # 测试集名称
     case_ids = models.CharField('case_ids', max_length=600)  # 用例名称
     shell = models.CharField('shell', max_length=1000)  # 用例路径
+    build_job = models.CharField("build_job", max_length=200)  # jenkins Job
+    job_url = models.CharField("job_url", max_length=200)  # jenkins job_url
     result = models.CharField('result', max_length=200)  # 用例说明
     run_time = models.DateTimeField('运行时间')  # 运行时间
     create_time = models.DateTimeField('创建时间', auto_now=True)  # 创建时间，自动获取当前时间
