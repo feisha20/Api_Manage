@@ -275,7 +275,7 @@ def get_result(request):
         subElement_joburl = elementobj.getElementsByTagName("url")
         result = subElementObj2[0].firstChild.data
         build_job = subElement_job[0].firstChild.data
-        job_url = subElement_joburl[0].firstChild.data + "/console"
+        job_url = subElement_joburl[0].firstChild.data + "console"
         models.TestSuit.objects.filter(id=nid).update(
             result=result,
             build_job=build_job,
