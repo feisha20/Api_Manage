@@ -55,7 +55,12 @@
                                     <td hidden>{{ testsuit.id }}</td>
                                     <td>{{ testsuit.project }}</td>
                                     <td style="width: 30%">{{ testsuit.name }}</td>
-                                    <td><a href="{{ testsuit.job_url }}" target="_blank">{{ testsuit.build_job }}</a></td>
+                                    <td>
+                                            {% if testsuit.job_url == "" %}
+                                            <a>{{ testsuit.build_job }}</a>
+                                                {% else %}
+                                             <a href="{{ testsuit.job_url }}" target="_blank">{{ testsuit.build_job }}</a></td>
+                                            {% endif %}
                                     <td>{{ testsuit.shell|truncatechars:50}}</td>
                                     <td>
                                     {% if testsuit.result == "running" %}
