@@ -8,5 +8,6 @@ urlpatterns = [
     # ex: /oepn_api/sql/
     url(r'sqlr', views.sqlr, name='sqlr'),
     url(r'sqlw', views.sqlw, name='sqlw'),
+    url(r'vpn', views.vpn, name='vpn'),
     path('openapi_manage.html/', views.openapi_list),
 ]

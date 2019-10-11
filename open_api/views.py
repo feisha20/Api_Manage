@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 import pymysql
 from sys_settings.models import Dbs
 from django.shortcuts import render
+import subprocess
 
 
 # 创建数据库连接
@@ -80,3 +81,19 @@ def sqlw(request):
 def openapi_list(request):
     username = request.session.get('user', '')  # 读取浏览器登录session
     return render(request, "openapi_manage.html")
+
+
+# 启动vpn
+@csrf_exempt
+def vpn(request):
+    run_sh = "myvpn"
+    p = subprocess.Popen(run_sh, shell=True)
+    p.wait()
+    pcode = p.returncode
+    print(pcode)
+    if pcode == 0:
+        print("输出的内容是:" + str(pcode))
+        return JsonResponse({"code":200, "message":"vpn已启动"})
+    else:
+        print("发生异常")
+        return JsonResponse({"code":417, "message":"vpn启动异常，请联系管理员"})
