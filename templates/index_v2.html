@@ -157,13 +157,29 @@
 
                                 <div class="feed-element">
                                     <a href="" class="pull-left">
-                                        <img alt="image" class="img-circle" src="/static/img/profile.jpg">
+{#                                        <img alt="image" class="img-circle" src="/static/img/profile.jpg">#}
+                                        {% for user_info in user_info %}
+                                           {% if user_info.sex == 1 %}
+                                               <img src="/static/img/tx-woman.png" class="img-circle" alt="img" >
+                                               {% else %}
+                                               <img src="/static/img/tx-man.png" class="img-circle" alt="img" >
+                                           {% endif %}
+                                        {% endfor %}
                                     </a>
                                     <div class="media-body ">
-                                        <small class="pull-right">5分钟前</small>
-                                        <strong>测试人员1</strong> 上传了一个文件
+                                        <small class="pull-right">刚刚</small>
+                                        <strong>
+                                            {% for user in user %}
+                                                {{ user.last_name }}{{ user.first_name }}
+                                            {% endfor %}
+                                        </strong> 登录系统
                                         <br>
-                                        <small class="text-muted">2019.05.08 12:22</small>
+                                        <small class="text-muted">
+                                            <script type="text/javascript">
+                                                    var date = new Date();
+                                                    document.write(date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate());
+                                            </script>
+                                        </small>
 
                                     </div>
                                 </div>
@@ -176,7 +192,12 @@
                                         <small class="pull-right">1个小时前</small>
                                         <strong>测试人员2</strong> 完成了任务：<strong>外部接口测试联调</strong>
                                         <br>
-                                        <small class="text-muted">2019.05.08 11:22</small>
+                                        <small class="text-muted">
+                                            <script type="text/javascript">
+                                                    var date = new Date();
+                                                    document.write(date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate());
+                                            </script>
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="feed-element">
@@ -187,7 +208,12 @@
                                         <small class="pull-right">2小时前</small>
                                         <strong>测试人员3</strong> 登录系统
                                         <br>
-                                        <small class="text-muted">2019.05.08 10:22</small>
+                                        <small class="text-muted">
+                                            <script type="text/javascript">
+                                                    var date = new Date();
+                                                    document.write(date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate());
+                                            </script>
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="feed-element">
@@ -198,7 +224,12 @@
                                         <small class="pull-right">1天前</small>
                                         <strong>测试人员4</strong> 添加了一个测试用例
                                         <br>
-                                        <small class="text-muted">2019.05.07 12:22</small>
+                                        <small class="text-muted">
+                                            <script type="text/javascript">
+                                                    var date = new Date();
+                                                    document.write(date.getFullYear() + "." + (date.getMonth() + 1) + "." + (date.getDate()-1));
+                                            </script>
+                                        </small>
                                     </div>
                                 </div>
                             </div>
