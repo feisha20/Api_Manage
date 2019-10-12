@@ -3,6 +3,7 @@ import django
 import datetime
 import xml.dom.minidom as xmldom
 import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'test_manage.settings'
 django.setup()
@@ -246,6 +247,7 @@ def run_test(request):
         run_time=datetime.datetime.now()
     )
     testsuits_list = TestSuit.objects.all()  # 读取project
+    get_result_task()
     return render(request, "testsuits.html", {"testsuits": testsuits_list})
 
 
@@ -283,3 +285,47 @@ def get_result(request):
         )
         testsuits_list = TestSuit.objects.all()  # 读取project
         return render(request, "testsuits.html", {"testsuits": testsuits_list})
+
+def auto_get_result():
+    jobname = "py_selenium"
+    jenkins_url = JENKINS_SETTINGS["URL"]
+    user = JENKINS_SETTINGS['USER']
+    password = JENKINS_SETTINGS['PASSWORD']
+    if os.path.exists("./web_auto/build.xml"):
+        os.remove("./web_auto/build.xml")
+    shell = "curl " + jenkins_url + "job/" + jobname + "/lastBuild/api/xml --user " + user + ":" + password + " >./web_auto/build.xml"
+    # print(shell)
+    subprocess.Popen(shell, shell=True)
+    time.sleep(2)
+    domobj = xmldom.parse("./web_auto/build.xml")
+    elementobj = domobj.documentElement
+    subElementObj = elementobj.getElementsByTagName("building")
+    is_running = subElementObj[0].firstChild.data
+    if is_running == "true":
+        print("job进行中")
+    else:
+        subElementObj2 = elementobj.getElementsByTagName("result")
+        subElement_job = elementobj.getElementsByTagName("fullDisplayName")
+        subElement_joburl = elementobj.getElementsByTagName("url")
+        result = subElementObj2[0].firstChild.data
+        build_job = subElement_job[0].firstChild.data
+        job_url = subElement_joburl[0].firstChild.data + "console"
+        models.TestSuit.objects.filter(result="running").update(
+            result=result,
+            build_job=build_job,
+            job_url=job_url,
+        )
+
+
+def get_result_task():
+    # 创建后台执行的schedulers
+    scheduler = BackgroundScheduler()
+    # 添加调度任务
+    # 调度方法为 get_result，触发器选择 interval(间隔性)，间隔时长为 n 秒,持续3分钟
+    time1 = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    time2 = (datetime.datetime.now()+datetime.timedelta(minutes=3)).strftime("%Y-%m-%d %H:%M:%S")
+    remark = "任务开始时间："+ time1 + ", 结束时间：" + time2
+    print(remark)
+    scheduler.add_job(auto_get_result, 'interval',id="my_job_id", seconds=10, start_date=time1, end_date=time2)
+    # 启动调度任务
+    scheduler.start()
